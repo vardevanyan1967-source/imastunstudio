@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IMASTUN STUDIO | Պոեզիայի Աշխարհ</title>
+<meta name="description" content="IMASTUN STUDIO — պոեզիա, երաժշտություն, վիդեո և հայկական կինեմատոգրաֆիկ արվեստ։">
+<meta name="keywords" content="Imastun Studio, Armenian poetry, Armenian music, cinematic songs, Silva Gulanyan, Gohara, Vahan">
+<meta name="author" content="IMASTUN STUDIO">
+
+<style>
+:root{
+  --bg:#050505;
+  --panel:#101010;
+  --panel-soft:rgba(255,255,255,.045);
+  --gold:#d4af37;
+  --gold-light:#ffd54f;
+  --text:#f5e7c1;
+  --muted:#d4c29d;
+  --line:rgba(212,175,55,.18);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(circle at 15% 10%, rgba(212,175,55,.09), transparent 24%),
+    radial-gradient(circle at 80% 20%, rgba(212,175,55,.06), transparent 22%),
+    linear-gradient(180deg,#050505,#030303);
+  color:var(--text);
+  font-family:Georgia, "Times New Roman", serif;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.16;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:80px 80px;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  width:700px;
+  height:700px;
+  border-radius:50%;
+  background:rgba(212,175,55,.05);
+  top:-200px;
+  right:-180px;
+  filter:blur(120px);
+  pointer-events:none;
+  z-index:0;
+}
+
+.lang-switcher{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:5000;
+  display:flex;
+  gap:8px;
+}
+
+.lang-switcher button{
+  background:rgba(10,10,10,.86);
+  color:var(--gold);
+  border:1px solid rgba(212,175,55,.35);
+  padding:8px 12px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:bold;
+  backdrop-filter:blur(10px);
+  transition:.3s;
+}
+
+.lang-switcher button:hover,
+.lang-switcher button.active{
+  background:var(--gold);
+  color:#000;
+  transform:translateY(-2px);
+}
+
+.hero{
+  position:relative;
+  min-height:88vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
+  padding:70px 40px 40px;
+  isolation:isolate;
+}
+
+.bg-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.34;
+  z-index:-3;
+}
+
+.overlay{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:
+    radial-gradient(circle at center, rgba(212,175,55,.12), transparent 38%),
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.94));
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  width:520px;
+  height:520px;
+  border-radius:50%;
+  background:rgba(212,175,55,.12);
+  filter:blur(90px);
+  z-index:-1;
+  animation:breath 7s ease-in-out infinite;
+}
+
+@keyframes breath{
+  0%,100%{transform:scale(.92);opacity:.45}
+  50%{transform:scale(1.08);opacity:.75}
+}
+
+.logo-img{
+  width:240px;
+  max-width:78vw;
+  filter:drop-shadow(0 0 26px rgba(212,175,55,.45));
+  animation:floatLogo 5s ease-in-out infinite;
+}
+
+@keyframes floatLogo{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+  100%{transform:translateY(0)}
+}
+
+.brand-title{
+  font-size:52px;
+  color:var(--gold-light);
+  margin-top:25px;
+  letter-spacing:5px;
+  text-shadow:0 0 25px rgba(212,175,55,.42);
+}
+
+.subtitle{
+  margin-top:15px;
+  font-size:22px;
+  color:#d9c28c;
+  letter-spacing:3px;
+}
+
+.hero-note{
+  margin:26px auto 0;
+  max-width:760px;
+  color:#cbb987;
+  font-size:18px;
+  line-height:1.8;
+}
+
+nav{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:22px;
+  padding:16px 18px;
+  background:rgba(0,0,0,.94);
+  border-top:1px solid #2f2614;
+  border-bottom:1px solid #2f2614;
+  position:sticky;
+  top:0;
+  z-index:999;
+  flex-wrap:wrap;
+  backdrop-filter:blur(12px);
+}
+
+nav a{
+  color:var(--gold);
+  text-decoration:none;
+  font-size:17px;
+  font-weight:bold;
+  transition:.35s ease;
+  padding:10px 14px;
+  border-radius:14px;
+}
+
+nav a:hover{
+  color:white;
+  background:rgba(212,175,55,.08);
+  text-shadow:0 0 18px rgba(212,175,55,.45);
+  transform:translateY(-1px);
+}
+
+section{
+  position:relative;
+  z-index:1;
+  padding:78px 8%;
+}
+
+.author-section{
+  text-align:center;
+}
+
+.author-header{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+  padding:42px 32px;
+  border-radius:30px;
+  border:1px solid rgba(212,175,55,.15);
+  box-shadow:0 0 35px rgba(212,175,55,.08);
+  max-width:950px;
+  margin:auto;
+  backdrop-filter:blur(10px);
+}
+
+.author-logo{
+  display:block;
+  width:320px;
+  max-width:90vw;
+  margin:0 auto 25px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 30px rgba(212,175,55,.35));
+}
+
+.silva-logo{
+  width:420px;
+  max-width:90vw;
+  transform:translateX(-8px);
+}
+
+.author-title{
+  font-size:42px;
+  color:#f6d56c;
+  margin-bottom:15px;
+  letter-spacing:2px;
+}
+
+.author-quote{
+  font-size:20px;
+  color:#d7c7a2;
+  font-style:italic;
+  line-height:1.7;
+}
+
+h2{
+  text-align:center;
+  font-size:44px;
+  margin-top:36px;
+  margin-bottom:46px;
+  color:var(--gold);
+  letter-spacing:2px;
+  text-shadow:
+    0 0 15px rgba(212,175,55,.35),
+    0 0 35px rgba(212,175,55,.12);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+  gap:38px;
+  padding:34px;
+  max-width:1550px;
+  margin:auto;
+}
+
+.card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));
+  padding:24px;
+  border-radius:28px;
+  overflow:hidden;
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,215,0,.08);
+  box-shadow:
+    0 0 25px rgba(0,0,0,.45),
+    0 0 60px rgba(0,0,0,.2);
+  transition:all .45s ease;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.055),transparent);
+  transform:translateX(-120%);
+  transition:.8s;
+}
+
+.card:hover::before{
+  transform:translateX(120%);
+}
+
+.card:hover{
+  transform:translateY(-8px) scale(1.015);
+  box-shadow:
+    0 0 35px rgba(0,0,0,.6),
+    0 0 50px rgba(212,175,55,.18);
+  border:1px solid rgba(212,175,55,.25);
+}
+
+.card h3{
+  font-size:24px;
+  margin-bottom:18px;
+  color:var(--gold);
+  text-align:center;
+  text-shadow:0 0 10px rgba(212,175,55,.3);
+  letter-spacing:1px;
+  z-index:1;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.8;
+  margin-bottom:20px;
+  text-align:center;
+  z-index:1;
+}
+
+audio{
+  width:100%;
+  max-width:420px;
+  margin-top:18px;
+  border-radius:999px;
+  opacity:.92;
+  background:#0b0b0b;
+  box-shadow:
+    0 0 20px rgba(212,175,55,.12),
+    inset 0 0 15px rgba(255,255,255,.03);
+  filter:sepia(20%) hue-rotate(2deg) saturate(.9) drop-shadow(0 0 15px rgba(0,0,0,.55));
+  z-index:1;
+}
+
+#video .grid{
+  grid-template-columns:repeat(2,minmax(360px,1fr));
+  max-width:1180px;
+  align-items:start;
+}
+
+#video .card{
+  max-width:530px;
+  margin:auto;
+}
+
+video{
+  width:100%;
+  max-width:420px;
+  height:700px;
+  object-fit:cover;
+  border-radius:24px;
+  background:#000;
+  box-shadow:
+    0 0 30px rgba(0,0,0,.55),
+    0 0 60px rgba(0,0,0,.3);
+  transition:.45s ease;
+  z-index:1;
+}
+
+video:hover{
+  transform:scale(1.02);
+  box-shadow:
+    0 0 45px rgba(0,0,0,.7),
+    0 0 70px rgba(212,175,55,.18);
+}
+
+.poem{
+  text-align:center;
+  max-width:850px;
+  margin:auto;
+  font-size:24px;
+  line-height:2;
+  font-style:italic;
+  color:#e1d1ac;
+}
+
+.social-row{
+  margin-top:28px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+.social-row a{
+  color:#050505;
+  background:linear-gradient(135deg,#d4af37,#ffe082);
+  text-decoration:none;
+  padding:12px 18px;
+  border-radius:999px;
+  font-weight:bold;
+  box-shadow:0 0 22px rgba(212,175,55,.18);
+}
+
+footer{
+  padding:40px;
+  text-align:center;
+  background:#080808;
+  color:#9c8449;
+  margin-top:50px;
+}
+
+@media(max-width:900px){
+  .lang-switcher{
+    top:10px;
+    right:10px;
+  }
+
+  .lang-switcher button{
+    padding:7px 10px;
+    font-size:12px;
+  }
+
+  .hero{
+    min-height:76vh;
+    padding:70px 24px 34px;
+  }
+
+  .logo-img{
+    width:170px;
+  }
+
+  .brand-title{
+    font-size:34px;
+    letter-spacing:3px;
+  }
+
+  .subtitle{
+    font-size:17px;
+    letter-spacing:2px;
+  }
+
+  .hero-note{
+    font-size:15px;
+    margin-top:18px;
+  }
+
+  nav{
+    justify-content:flex-start;
+    overflow-x:auto;
+    white-space:nowrap;
+    flex-wrap:nowrap;
+    gap:10px;
+    padding:12px 10px;
+  }
+
+  nav::-webkit-scrollbar{
+    display:none;
+  }
+
+  nav a{
+    font-size:15px;
+    padding:8px 7px;
+  }
+
+  section{
+    padding:58px 4%;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+    padding:18px;
+    gap:30px;
+  }
+
+  #video .grid{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    padding:18px;
+  }
+
+  .card h3{
+    font-size:21px;
+  }
+
+  h2{
+    font-size:34px;
+    margin-bottom:34px;
+  }
+
+  video{
+    height:560px;
+    max-width:100%;
+  }
+
+  .poem{
+    font-size:20px;
+    line-height:1.8;
+  }
+
+  .author-title{
+    font-size:30px;
+  }
+
+  .author-logo{
+    width:240px;
+  }
+
+  .silva-logo{
+    width:300px;
+    transform:translateX(-4px);
+  }
+
+  .author-header{
+    padding:30px 18px;
+  }
+}
+
+/* ===== CLEAN AUTHOR SYSTEM V3 ===== */
+#authors{padding-top:90px}
+
+.authors-grid{
+  display:flex;
+  flex-direction:column;
+  gap:38px;
+  max-width:1450px;
+  margin:auto;
+  padding:20px;
+}
+
+.author-card{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:40px;
+  min-height:260px;
+  border-radius:34px;
+  overflow:hidden;
+  background:#090909;
+  border:1px solid rgba(212,175,55,.16);
+  box-shadow:0 0 40px rgba(0,0,0,.65),0 0 80px rgba(212,175,55,.08);
+  transition:.5s ease;
+  backdrop-filter:blur(14px);
+}
+
+.author-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 55px rgba(212,175,55,.18),0 0 120px rgba(0,0,0,.9);
+  border:1px solid rgba(255,215,0,.28);
+}
+
+.author-cover{
+  position:relative;
+  width:52%;
+  height:260px;
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+.author-cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.6s ease;
+}
+
+.author-card:hover .author-cover img{transform:scale(1.05)}
+
+.author-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(0,0,0,.68));
+}
+
+.author-content{
+  position:relative;
+  z-index:2;
+  padding:34px 34px 34px 0;
+  flex:1;
+}
+
+.author-status{
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#d4af37,#ffe082);
+  color:#000;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:1px;
+  margin-bottom:18px;
+}
+
+.author-name{
+  font-size:38px;
+  color:#ffd86b;
+  margin-bottom:16px;
+  text-shadow:0 0 20px rgba(212,175,55,.35);
+}
+
+.author-quote{
+  font-size:19px;
+  line-height:1.8;
+  color:#e0d1ab;
+  max-width:700px;
+  margin-bottom:24px;
+}
+
+.author-track{
+  margin:4px 0 22px;
+  max-width:420px;
+}
+
+.author-track small{
+  color:#d4af37;
+  letter-spacing:1px;
+  font-weight:bold;
+}
+
+.author-socials{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.author-socials a{
+  text-decoration:none;
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(212,175,55,.22);
+  color:#d4af37;
+  font-size:14px;
+  transition:.35s;
+  backdrop-filter:blur(8px);
+  box-shadow:0 0 12px rgba(212,175,55,.08);
+}
+
+.author-socials a:hover{
+  background:#d4af37;
+  color:#000;
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 0 22px rgba(212,175,55,.35);
+}
+
+.coming-soon{opacity:.92}
+.coming-soon .author-status{background:linear-gradient(135deg,#666,#999);color:#fff}
+
+@media(max-width:980px){
+  .author-card{flex-direction:column;align-items:stretch;min-height:auto;gap:0}
+  .author-cover{width:100%;height:260px}
+  .author-cover::after{background:linear-gradient(180deg,transparent,rgba(0,0,0,.82))}
+  .author-content{padding:28px;text-align:center}
+  .author-name{font-size:28px}
+  .author-quote{font-size:17px;margin-left:auto;margin-right:auto}
+  .author-socials{justify-content:center}
+  .author-track{margin-left:auto;margin-right:auto}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="lang-switcher">
+  <button onclick="setLang('hy')" class="active">HY</button>
+  <button onclick="setLang('ru')">RU</button>
+  <button onclick="setLang('en')">EN</button>
+</div>
+
+<header class="hero">
+<video autoplay muted loop playsinline class="bg-video">
+<source src="background.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<div>
+<img src="logo.png" class="logo-img" alt="IMASTUN STUDIO Logo">
+<div class="brand-title">IMASTUN STUDIO</div>
+<div class="subtitle" data-key="subtitle">ՊՈԵԶԻԱՅԻ ԱՇԽԱՐՀ</div>
+<p class="hero-note" data-key="heroNote">Պոեզիա, երաժշտություն և կինեմատոգրաֆիկ վիդեոներ մեկ մութ-ոսկեգույն ստեղծագործական աշխարհում։</p>
+</div>
+</header>
+
+<nav>
+<a href="#silva" data-key="navSilva">Սիլվա Գուլանյան</a>
+<a href="#gohara" data-key="navGohara">Գօ Հարա</a>
+<a href="#imastun" data-key="navImastun">Imastun</a>
+<a href="#authors" data-key="navAuthors">Հեղինակներ</a>
+<a href="#video" data-key="navVideo">Վիդեո</a>
+<a href="#poetry" data-key="navPoetry">Պոեզիա</a>
+<a href="#contact" data-key="navContact">Կապ</a>
+</nav>
+
+<section id="silva" class="author-section">
+<div class="author-header">
+<img src="gulanyan-logo.png" class="author-logo silva-logo" alt="Սիլվա Գուլանյան">
+<h2 class="author-title" data-key="silvaName">ՍԻԼՎԱ ԳՈՒԼԱՆՅԱՆ</h2>
+<p class="author-quote" data-key="silvaQuote">«Բառերը ծնվում են հոգու խորքում…»</p>
+</div>
+</section>
+
+<section>
+<h2 data-key="silvaSongs">Սիլվայի երգերը</h2>
+<div class="grid">
+
+<div class="card"><h3>Ի՞նչ եմ անելու</h3><p>Զգացմունքային և կինեմատոգրաֆիկ սիրային երգ։</p><audio controls><source src="audio/silva/featured/inch-em-anelu.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Ծով արև աչքեր</h3><p>Ռոմանտիկ և լուսավոր տրամադրությամբ երգ։</p><audio controls><source src="audio/silva/featured/tsov-arev-achqer.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Գիժ քամին</h3><p>Քամու, կարոտի և հոգու շարժման մասին երգ։</p><audio controls><source src="audio/silva/featured/im-tsovagur.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Գիժ քամին Trilingual Duet</h3><p>Եռալեզու duet տարբերակ՝ լայն ու կինեմատոգրաֆիկ շնչով։</p><audio controls><source src="audio/silva/featured/gij.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Երգիչը դարի</h3><p>Ժամանակի ու երգի մասին զգացմունքային ստեղծագործություն։</p><audio controls><source src="audio/silva/featured/ergichy-dari.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Գորշ տրիկ անկյուն</h3><p>Մռայլ ու խորը զգացմունքային տրամադրություն։</p><audio controls><source src="audio/silva/featured/gortrik-ankun.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Ոչ մեկ քեզ պես</h3><p>Սիրո և կարոտի մասին cinematic ստեղծագործություն։</p><audio controls><source src="audio/silva/featured/der-inz-voch-mek-chi-sirel-qo-pes.mp3" type="audio/mpeg"></audio></div>
+
+</div>
+</section>
+
+<section id="gohara" class="author-section">
+<div class="author-header">
+<h2 class="author-title" data-key="goharaName">ԳՕ ՀԱՐԱ</h2>
+<p class="author-quote" data-key="goharaQuote">«Սիրտը հիշում է այն, ինչ հոգին չի մոռանում…»</p>
+</div>
+</section>
+
+<section>
+<h2 data-key="goharaSongs">Գօ Հարայի երգերը</h2>
+<div class="grid">
+
+<div class="card"><h3>Դառնահամ գինին</h3><p>Մութ և կրքոտ ֆրանսիական մթնոլորտ։</p><audio controls><source src="audio/gohara/featured/darnaham-ginin.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>LA FRANÇAISE</h3><p>Ֆրանսիական կինեմատոգրաֆիկ տրամադրությամբ երգ։</p><audio controls><source src="audio/gohara/featured/la-fracise.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>ФРАНЦУЖЕНКА</h3><p>Եվրոպական զգացմունքային atmosphere։</p><audio controls><source src="audio/gohara/featured/fracuzhenka.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Գիշերային</h3><p>Մութ գիշերային cinematic տրամադրություն։</p><audio controls><source src="audio/gohara/featured/gisherajin.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Կանչիր կգամ</h3><p>Զգացմունքային և սպասումով լի երգ։</p><audio controls><source src="audio/gohara/featured/kanchir-kgam.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Ցնծիր սերս</h3><p>Ռոմանտիկ և մեղմ atmosphere ունեցող ստեղծագործություն։</p><audio controls><source src="audio/gohara/featured/cncir-users.mp3" type="audio/mpeg"></audio></div>
+
+</div>
+</section>
+
+<section id="imastun" class="author-section">
+<div class="author-header">
+<h2 class="author-title">IMASTUN</h2>
+<p class="author-quote" data-key="imastunQuote">«Մթությունը նույնպես կարող է գեղեցիկ լինել…»</p>
+</div>
+</section>
+
+<section>
+<h2 data-key="imastunFeatured">Imastun Featured</h2>
+<div class="grid">
+
+<div class="card"><h3>Լուռ հեռախոս</h3><audio controls><source src="audio/imastun/featured/lur-heraxos.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Քո ջինջ հոգին</h3><audio controls><source src="audio/imastun/featured/qo-jinj-hogin.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Սեր անուրջի</h3><audio controls><source src="audio/imastun/featured/ser-anurji.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Շեպոտ</h3><audio controls><source src="audio/imastun/featured/shepot.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Շշնջաց</h3><audio controls><source src="audio/imastun/featured/shshnjatc.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Շշնջաց նորից</h3><audio controls><source src="audio/imastun/featured/shshnjatc-noric.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Սիրո կենացը</h3><audio controls><source src="audio/imastun/featured/siro-kenacy.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Հոգու արձագանք</h3><audio controls><source src="audio/imastun/featured/hogu-arzaganq.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Ինչի համար</h3><audio controls><source src="audio/imastun/featured/inchi-hamar.mp3" type="audio/mpeg"></audio></div>
+<div class="card"><h3>Հավերժի երթը</h3><audio controls><source src="audio/imastun/featured/haverji-erty.mp3" type="audio/mpeg"></audio></div>
+
+</div>
+</section>
+
+
+<section id="authors">
+<h2 data-key="authorsTitle">Հեղինակներ</h2>
+<div class="authors-grid">
+
+<div class="author-card">
+<div class="author-cover"><img src="authors/silva-gulanyan/cover.jpg" alt="Սիլվա Գուլանյան"></div>
+<div class="author-content">
+<span class="author-status" data-key="statusFeatured">FEATURED</span>
+<h3 class="author-name" data-key="authorSilva">Սիլվա Գուլանյան</h3>
+<p class="author-quote" data-key="authorSilvaQuote">«Բառերը ծնվում են հոգու խորքում…»</p>
+<div class="author-track">
+<small data-key="featuredTrack">FEATURED TRACK</small>
+<audio controls><source src="audio/silva/featured/im-tsovagur.mp3" type="audio/mpeg"></audio>
+</div>
+<div class="author-socials"><a href="#" target="_blank" rel="noopener">Facebook</a><a href="#" target="_blank" rel="noopener">Messenger</a><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">YouTube</a><a href="#" target="_blank" rel="noopener">Suno</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Telegram</a><a href="#" target="_blank" rel="noopener">Website</a></div>
+</div>
+</div>
+
+
+<div class="author-card">
+<div class="author-cover"><img src="authors/go-hara/cover.jpg" alt="Գօ Հարա"></div>
+<div class="author-content">
+<span class="author-status" data-key="statusFeatured">FEATURED</span>
+<h3 class="author-name" data-key="authorGohara">Գօ Հարա</h3>
+<p class="author-quote" data-key="authorGoharaQuote">«Սիրտը հիշում է այն, ինչ հոգին չի մոռանում…»</p>
+<div class="author-track">
+<small data-key="featuredTrack">FEATURED TRACK</small>
+<audio controls><source src="audio/gohara/featured/darnaham-ginin.mp3" type="audio/mpeg"></audio>
+</div>
+<div class="author-socials"><a href="#" target="_blank" rel="noopener">Facebook</a><a href="#" target="_blank" rel="noopener">Messenger</a><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">YouTube</a><a href="#" target="_blank" rel="noopener">Suno</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Telegram</a><a href="#" target="_blank" rel="noopener">Website</a></div>
+</div>
+</div>
+
+
+<div class="author-card">
+<div class="author-cover"><img src="authors/imastun/cover.jpg" alt="Imastun"></div>
+<div class="author-content">
+<span class="author-status" data-key="statusFeatured">FEATURED</span>
+<h3 class="author-name" data-key="authorImastun">Imastun</h3>
+<p class="author-quote" data-key="authorImastunQuote">«Մթությունը նույնպես կարող է գեղեցիկ լինել…»</p>
+<div class="author-track">
+<small data-key="featuredTrack">FEATURED TRACK</small>
+<audio controls><source src="audio/imastun/featured/siro-kenacy.mp3" type="audio/mpeg"></audio>
+</div>
+<div class="author-socials"><a href="#" target="_blank" rel="noopener">Facebook</a><a href="#" target="_blank" rel="noopener">Messenger</a><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">YouTube</a><a href="#" target="_blank" rel="noopener">Suno</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Telegram</a><a href="#" target="_blank" rel="noopener">Website</a></div>
+</div>
+</div>
+
+
+<div class="author-card coming-soon">
+<div class="author-cover"><img src="authors/lilit-aghasyan/cover.jpg" alt="Լիլիթ Աղասյան"></div>
+<div class="author-content">
+<span class="author-status" data-key="statusSoon">COMING SOON</span>
+<h3 class="author-name" data-key="authorLilit">Լիլիթ Աղասյան</h3>
+<p class="author-quote" data-key="comingSoonText">Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։</p>
+
+<div class="author-socials"><a href="#" target="_blank" rel="noopener">Facebook</a><a href="#" target="_blank" rel="noopener">Messenger</a><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">YouTube</a><a href="#" target="_blank" rel="noopener">Suno</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Telegram</a><a href="#" target="_blank" rel="noopener">Website</a></div>
+</div>
+</div>
+
+
+<div class="author-card coming-soon">
+<div class="author-cover"><img src="authors/mareta-sargsyan/cover.jpg" alt="Մարետա Սարգսյան"></div>
+<div class="author-content">
+<span class="author-status" data-key="statusSoon">COMING SOON</span>
+<h3 class="author-name" data-key="authorMareta">Մարետա Սարգսյան</h3>
+<p class="author-quote" data-key="comingSoonText">Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։</p>
+
+<div class="author-socials"><a href="#" target="_blank" rel="noopener">Facebook</a><a href="#" target="_blank" rel="noopener">Messenger</a><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">YouTube</a><a href="#" target="_blank" rel="noopener">Suno</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Telegram</a><a href="#" target="_blank" rel="noopener">Website</a></div>
+</div>
+</div>
+
+
+<div class="author-card coming-soon">
+<div class="author-cover"><img src="authors/narine-balasbekyan/cover.jpg" alt="Նարինե Բալասբեկյան"></div>
+<div class="author-content">
+<span class="author-status" data-key="statusSoon">COMING SOON</span>
+<h3 class="author-name" data-key="authorNarine">Նարինե Բալասբեկյան</h3>
+<p class="author-quote" data-key="comingSoonText">Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։</p>
+
+<div class="author-socials"><a href="#" target="_blank" rel="noopener">Facebook</a><a href="#" target="_blank" rel="noopener">Messenger</a><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">YouTube</a><a href="#" target="_blank" rel="noopener">Suno</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Telegram</a><a href="#" target="_blank" rel="noopener">Website</a></div>
+</div>
+</div>
+
+
+<div class="author-card coming-soon">
+<div class="author-cover"><img src="authors/nune-muradyan/cover.jpg" alt="Նունե Մուրադյան"></div>
+<div class="author-content">
+<span class="author-status" data-key="statusSoon">COMING SOON</span>
+<h3 class="author-name" data-key="authorNune">Նունե Մուրադյան</h3>
+<p class="author-quote" data-key="comingSoonText">Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։</p>
+
+<div class="author-socials"><a href="#" target="_blank" rel="noopener">Facebook</a><a href="#" target="_blank" rel="noopener">Messenger</a><a href="#" target="_blank" rel="noopener">Instagram</a><a href="#" target="_blank" rel="noopener">YouTube</a><a href="#" target="_blank" rel="noopener">Suno</a><a href="#" target="_blank" rel="noopener">TikTok</a><a href="#" target="_blank" rel="noopener">Telegram</a><a href="#" target="_blank" rel="noopener">Website</a></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="video">
+<h2 data-key="videos">Վիդեոներ</h2>
+<div class="grid">
+
+<div class="card"><h3>Աքլորականչից առաջ</h3><video controls preload="metadata"><source src="videos/imastun/featured/aqlorakanchic-araj.mp4" type="video/mp4"></video></div>
+<div class="card"><h3>Դառնահամ գինին</h3><video controls preload="metadata"><source src="videos/imastun/featured/darnaham-ginin.mp4" type="video/mp4"></video></div>
+<div class="card"><h3>French Woman</h3><video controls preload="metadata"><source src="videos/imastun/featured/frenchwoman.mp4" type="video/mp4"></video></div>
+<div class="card"><h3>Հավերժի երթը</h3><video controls preload="metadata"><source src="videos/imastun/featured/haverji-erty.mp4" type="video/mp4"></video></div>
+<div class="card"><h3>Փորձված սեր</h3><video controls preload="metadata"><source src="videos/imastun/featured/porcvats-ser.mp4" type="video/mp4"></video></div>
+<div class="card"><h3>Սիրո կենացը</h3><video controls preload="metadata"><source src="videos/imastun/featured/siro-kenacy.mp4" type="video/mp4"></video></div>
+
+</div>
+</section>
+
+<section id="poetry">
+<h2 data-key="poetry">Պոեզիա</h2>
+<div class="poem" data-key="poemText">
+Բառերը չեն ծնվում պարզապես…<br>
+այլ ապրում են մարդու մեջ։
+</div>
+</section>
+
+<section id="contact">
+<h2 data-key="contact">Կապ</h2>
+<div class="poem">IMASTUN STUDIO</div>
+
+<div class="social-row">
+<a href="#" target="_blank" rel="noopener">YouTube</a>
+<a href="#" target="_blank" rel="noopener">Facebook</a>
+<a href="#" target="_blank" rel="noopener">TikTok</a>
+<a href="#" target="_blank" rel="noopener">Telegram</a>
+</div>
+</section>
+
+<footer>© 2026 IMASTUN STUDIO</footer>
+
+<script>
+const t={
+hy:{
+subtitle:"ՊՈԵԶԻԱՅԻ ԱՇԽԱՐՀ",
+heroNote:"Պոեզիա, երաժշտություն և կինեմատոգրաֆիկ վիդեոներ մեկ մութ-ոսկեգույն ստեղծագործական աշխարհում։",
+navSilva:"Սիլվա Գուլանյան",
+navGohara:"Գօ Հարա",
+navImastun:"Imastun",
+navAuthors:"Հեղինակներ",
+authorsTitle:"Հեղինակներ",
+statusFeatured:"FEATURED",
+statusSoon:"COMING SOON",
+featuredTrack:"FEATURED TRACK",
+authorSilva:"Սիլվա Գուլանյան",
+authorSilvaQuote:"«Բառերը ծնվում են հոգու խորքում…»",
+authorGohara:"Գօ Հարա",
+authorGoharaQuote:"«Սիրտը հիշում է այն, ինչ հոգին չի մոռանում…»",
+authorImastun:"Imastun",
+authorImastunQuote:"«Մթությունը նույնպես կարող է գեղեցիկ լինել…»",
+authorLilit:"Լիլիթ Աղասյան",
+authorMareta:"Մարետա Սարգսյան",
+authorNarine:"Նարինե Բալասբեկյան",
+authorNune:"Նունե Մուրադյան",
+comingSoonText:"Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։",
+navVideo:"Վիդեո",
+navPoetry:"Պոեզիա",
+navContact:"Կապ",
+silvaName:"ՍԻԼՎԱ ԳՈՒԼԱՆՅԱՆ",
+silvaQuote:"«Բառերը ծնվում են հոգու խորքում…»",
+silvaSongs:"Սիլվայի երգերը",
+goharaName:"ԳՕ ՀԱՐԱ",
+goharaQuote:"«Սիրտը հիշում է այն, ինչ հոգին չի մոռանում…»",
+goharaSongs:"Գօ Հարայի երգերը",
+imastunQuote:"«Մթությունը նույնպես կարող է գեղեցիկ լինել…»",
+imastunFeatured:"Imastun Featured",
+videos:"Վիդեոներ",
+poetry:"Պոեզիա",
+poemText:"Բառերը չեն ծնվում պարզապես…<br>այլ ապրում են մարդու մեջ։",
+contact:"Կապ"
+},
+ru:{
+subtitle:"МИР ПОЭЗИИ",
+heroNote:"Поэзия, музыка и кинематографические видео в одном тёмно-золотом творческом мире.",
+navSilva:"Сильва Гулянян",
+navGohara:"Го Ара",
+navImastun:"Imastun",
+navAuthors:"Авторы",
+authorsTitle:"Авторы",
+statusFeatured:"FEATURED",
+statusSoon:"COMING SOON",
+featuredTrack:"FEATURED TRACK",
+authorSilva:"Сильва Гулянян",
+authorSilvaQuote:"«Слова рождаются в глубине души…»",
+authorGohara:"Го Ара",
+authorGoharaQuote:"«Сердце помнит то, что душа не забывает…»",
+authorImastun:"Imastun",
+authorImastunQuote:"«Темнота тоже может быть красивой…»",
+authorLilit:"Лилит Агасян",
+authorMareta:"Марета Саргсян",
+authorNarine:"Нарине Баласбекян",
+authorNune:"Нуне Мурадян",
+comingSoonText:"Поэтическая коллекция скоро появится в IMASTUN STUDIO.",
+navVideo:"Видео",
+navPoetry:"Поэзия",
+navContact:"Контакт",
+silvaName:"СИЛЬВА ГУЛЯНЯН",
+silvaQuote:"«Слова рождаются в глубине души…»",
+silvaSongs:"Песни Сильвы",
+goharaName:"ГО АРА",
+goharaQuote:"«Сердце помнит то, что душа не забывает…»",
+goharaSongs:"Песни Го Ары",
+imastunQuote:"«Темнота тоже может быть красивой…»",
+imastunFeatured:"Избранное Imastun",
+videos:"Видео",
+poetry:"Поэзия",
+poemText:"Слова не рождаются просто так…<br>они живут внутри человека.",
+contact:"Контакт"
+},
+en:{
+subtitle:"WORLD OF POETRY",
+heroNote:"Poetry, music and cinematic videos in one dark-golden creative world.",
+navSilva:"Silva Gulanyan",
+navGohara:"Go Hara",
+navImastun:"Imastun",
+navAuthors:"Authors",
+authorsTitle:"Authors",
+statusFeatured:"FEATURED",
+statusSoon:"COMING SOON",
+featuredTrack:"FEATURED TRACK",
+authorSilva:"Silva Gulanyan",
+authorSilvaQuote:"“Words are born in the depth of the soul…”",
+authorGohara:"Go Hara",
+authorGoharaQuote:"“The heart remembers what the soul does not forget…”",
+authorImastun:"Imastun",
+authorImastunQuote:"“Darkness can also be beautiful…”",
+authorLilit:"Lilit Aghasyan",
+authorMareta:"Mareta Sargsyan",
+authorNarine:"Narine Balasbekyan",
+authorNune:"Nune Muradyan",
+comingSoonText:"Poetry collection coming soon on IMASTUN STUDIO.",
+navVideo:"Video",
+navPoetry:"Poetry",
+navContact:"Contact",
+silvaName:"SILVA GULANYAN",
+silvaQuote:"“Words are born in the depth of the soul…”",
+silvaSongs:"Silva Songs",
+goharaName:"GO HARA",
+goharaQuote:"“The heart remembers what the soul does not forget…”",
+goharaSongs:"Go Hara Songs",
+imastunQuote:"“Darkness can also be beautiful…”",
+imastunFeatured:"Imastun Featured",
+videos:"Videos",
+poetry:"Poetry",
+poemText:"Words are not born by chance…<br>they live inside a human soul.",
+contact:"Contact"
+}
+};
+
+function setLang(lang){
+document.documentElement.lang=lang;
+
+document.querySelectorAll(".lang-switcher button").forEach(btn=>{
+btn.classList.remove("active");
+});
+
+const activeBtn = document.querySelector(`.lang-switcher button[onclick="setLang('${lang}')"]`);
+if(activeBtn) activeBtn.classList.add("active");
+
+document.querySelectorAll("[data-key]").forEach(el=>{
+const key=el.getAttribute("data-key");
+if(t[lang][key]) el.innerHTML=t[lang][key];
+});
+}
+</script>
+
+</body>
+</html>
