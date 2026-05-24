@@ -424,6 +424,45 @@ audio{
 }
 .section-hidden{ display:none !important; }
 
+/* ══ MEDIA TABS ══ */
+.media-tabs{
+  display:flex;
+  gap:6px;
+  margin-top:14px;
+  z-index:1;
+}
+.media-tab{
+  flex:1;
+  padding:7px 10px;
+  border-radius:12px;
+  border:1px solid rgba(212,175,55,.2);
+  background:rgba(10,10,10,.7);
+  color:rgba(212,175,55,.6);
+  font-size:12px;
+  cursor:pointer;
+  font-family:Georgia,serif;
+  transition:.25s;
+  text-align:center;
+  white-space:nowrap;
+}
+.media-tab:hover{ background:rgba(212,175,55,.1); color:var(--gold); }
+.media-tab.active{
+  background:rgba(212,175,55,.15);
+  color:var(--gold);
+  border-color:rgba(212,175,55,.5);
+  font-weight:bold;
+}
+.media-panel{ display:none; width:100%; margin-top:10px; }
+.media-panel.active{ display:block; }
+.media-panel iframe{
+  width:100%;
+  border-radius:14px;
+  border:none;
+  display:block;
+}
+.media-panel.yt-panel iframe{ height:200px; }
+.media-panel.suno-panel iframe{ height:152px; }
+
 /* ── Playlist bar ── */
 #playlist-bar{
   position:fixed;
@@ -1221,7 +1260,7 @@ footer{
 <h2 data-key="silvaSongs">Սիլվայի երգերը</h2>
 <div class="grid">
 
-<div class="card" data-artist="silva" data-title="Ի՞նչ եմ անելու"><h3>Ի՞նչ եմ անելու</h3><p>Զգացմունքային և կինեմատոգրաֆիկ սիրային երգ։</p><audio controls><source src="audio/silva/featured/inch-em-anelu.mp3" type="audio/mpeg"></audio></div>
+<div class="card" data-artist="silva" data-title="Ի՞նչ եմ անելու" data-youtube="https://www.youtube.com/watch?v=dQw4w9WgXcQ" data-suno="https://suno.com/song/example-id"><h3>Ի՞նչ եմ անելու</h3><p>Զգացմունքային և կինեմատոգրաֆիկ սիրային երգ։</p><audio controls><source src="audio/silva/featured/inch-em-anelu.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="silva" data-title="Ծով արև աչքեր"><h3>Ծով արև աչքեր</h3><p>Ռոմանտիկ և լուսավոր տրամադրությամբ երգ։</p><audio controls><source src="audio/silva/featured/tsov-arev-achqer.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="silva" data-title="Գիժ քամին"><h3>Գիժ քամին</h3><p>Քամու, կարոտի և հոգու շարժման մասին երգ։</p><audio controls><source src="audio/silva/featured/gij-qamin.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="silva" data-title="Գիժ քամին Trilingual Duet"><h3>Գիժ քամին Trilingual Duet</h3><p>Եռալեզու duet տարբերակ՝ լայն ու կինեմատոգրաֆիկ շնչով։</p><audio controls><source src="audio/silva/featured/gij.mp3" type="audio/mpeg"></audio></div>
@@ -1696,9 +1735,102 @@ let plShuffle=false;
 let plRepeatState=0;
 let recentPlayed=[];
 
+/* ── Media Tabs builder ── */
+function ytEmbedUrl(url){
+  if(!url) return null;
+  // Handle youtu.be/ID and youtube.com/watch?v=ID and /embed/ID
+  let m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m?`https://www.youtube.com/embed/${m[1]}?rel=0&modestbranding=1`:null;
+}
+
+function sunoEmbedUrl(url){
+  if(!url) return null;
+  // Handle suno.com/song/ID or suno.ai/song/ID
+  let m=url.match(/suno\.(?:com|ai)\/song\/([a-z0-9-]+)/i);
+  return m?`https://suno.com/embed/${m[1]}`:null;
+}
+
+function buildMediaTabs(card){
+  const hasMp3=!!card.querySelector('audio source');
+  const ytUrl=ytEmbedUrl(card.dataset.youtube||'');
+  const sunoUrl=sunoEmbedUrl(card.dataset.suno||'');
+  if(!ytUrl&&!sunoUrl) return; // No external links — keep as-is
+
+  // Build tab row
+  const tabRow=document.createElement('div');
+  tabRow.className='media-tabs';
+
+  const panels=[];
+
+  function mkTab(label,panelClass,embedUrl){
+    const tab=document.createElement('button');
+    tab.className='media-tab';
+    tab.textContent=label;
+    tabRow.appendChild(tab);
+
+    const panel=document.createElement('div');
+    panel.className=`media-panel ${panelClass}`;
+    panel.dataset.src=embedUrl;
+    panels.push({tab,panel});
+
+    tab.addEventListener('click',()=>{
+      panels.forEach(p=>{ p.tab.classList.remove('active'); p.panel.classList.remove('active'); });
+      tab.classList.add('active');
+      panel.classList.add('active');
+      // Lazy-load iframe only on click
+      if(!panel.querySelector('iframe')){
+        const iframe=document.createElement('iframe');
+        iframe.src=embedUrl;
+        iframe.allow='autoplay; encrypted-media';
+        iframe.allowFullscreen=true;
+        panel.appendChild(iframe);
+      }
+    });
+    return panel;
+  }
+
+  if(hasMp3){
+    // MP3 tab — just shows the existing audio element
+    const mp3Tab=document.createElement('button');
+    mp3Tab.className='media-tab active';
+    mp3Tab.textContent='🎵 MP3';
+    tabRow.appendChild(mp3Tab);
+    const mp3Panel=document.createElement('div');
+    mp3Panel.className='media-panel active';
+    // Move existing audio into panel
+    const audio=card.querySelector('audio');
+    if(audio){ mp3Panel.appendChild(audio); }
+    panels.push({tab:mp3Tab,panel:mp3Panel});
+    mp3Tab.addEventListener('click',()=>{
+      panels.forEach(p=>{ p.tab.classList.remove('active'); p.panel.classList.remove('active'); });
+      mp3Tab.classList.add('active'); mp3Panel.classList.add('active');
+    });
+    card.appendChild(tabRow);
+    card.appendChild(mp3Panel);
+  } else {
+    card.appendChild(tabRow);
+  }
+
+  if(ytUrl){
+    const p=mkTab('▶ YouTube','yt-panel',ytUrl);
+    card.appendChild(p);
+    // Auto-activate if no mp3
+    if(!hasMp3){ panels[0].tab.classList.add('active'); panels[0].panel.classList.add('active'); }
+  }
+  if(sunoUrl){
+    const p=mkTab('🎵 Suno','suno-panel',sunoUrl);
+    card.appendChild(p);
+    if(!hasMp3&&!ytUrl){ panels[0].tab.classList.add('active'); panels[0].panel.classList.add('active'); }
+  }
+}
+
 function initPlaylist(){
   document.querySelectorAll('.card[data-artist]').forEach(card=>{
     const src=card.querySelector('audio source')?.src;
+
+    /* ── Media tabs (YouTube / Suno) ── */
+    buildMediaTabs(card);
+
     if(!src) return;
 
     /* Now-playing badge */
