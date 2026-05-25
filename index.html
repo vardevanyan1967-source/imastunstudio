@@ -1042,9 +1042,9 @@ footer{
 #authors{padding-top:90px}
 
 .authors-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
   max-width:1200px;
   margin:auto;
   padding:20px;
@@ -1098,20 +1098,20 @@ footer{
 .author-card{
   position:relative;
   display:flex;
-  flex-direction:column;
   align-items:center;
-  border-radius:22px;
+  height:120px;
+  border-radius:20px;
   overflow:hidden;
   background:#090909;
   border:1px solid rgba(212,175,55,.16);
   box-shadow:0 0 30px rgba(0,0,0,.6);
   cursor:pointer;
   transition:.4s ease;
-  aspect-ratio:1/1;
+  width:100%;
 }
 
 .author-card:hover{
-  transform:translateY(-6px) scale(1.03);
+  transform:translateY(-4px);
   box-shadow:0 0 50px rgba(212,175,55,.22);
   border-color:rgba(212,175,55,.45);
 }
@@ -1130,47 +1130,60 @@ footer{
   width:100%;
   height:100%;
   object-fit:cover;
+  object-position:center top;
   display:block;
   transition:.6s ease;
 }
 
-.author-card:hover .author-cover img{transform:scale(1.08)}
+.author-card:hover .author-cover img{transform:scale(1.05)}
 
 .author-cover::after{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.88));
+  background:linear-gradient(90deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.7) 50%,rgba(0,0,0,.92) 100%);
 }
 
 .author-content{
   position:absolute;
-  bottom:0; left:0; right:0;
-  padding:16px;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  padding:0 28px;
   z-index:2;
-  text-align:center;
-  z-index:2;
-  padding:34px 34px 34px 0;
-  flex:1;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  width:60%;
+  justify-content:flex-end;
 }
 
 .author-status{
   display:inline-block;
-  padding:8px 14px;
+  padding:5px 14px;
   border-radius:999px;
   background:linear-gradient(135deg,#d4af37,#ffe082);
   color:#000;
-  font-size:12px;
+  font-size:11px;
   font-weight:bold;
   letter-spacing:1px;
-  margin-bottom:18px;
+  white-space:nowrap;
 }
 
+.coming-soon .author-status{
+  background:linear-gradient(135deg,#555,#888);
+  color:#fff;
+}
+.coming-soon{ opacity:.75; cursor:default; }
+.coming-soon:hover{ transform:none !important; box-shadow:0 0 30px rgba(0,0,0,.6) !important; border-color:rgba(212,175,55,.16) !important; }
+
 .author-name{
-  font-size:16px;
+  font-size:20px;
   color:#ffd86b;
-  margin-bottom:16px;
-  text-shadow:0 0 20px rgba(212,175,55,.35);
+  text-shadow:0 0 20px rgba(212,175,55,.5);
+  white-space:nowrap;
+  font-family:Georgia,serif;
+  letter-spacing:.5px;
 }
 
 .author-quote{
@@ -1269,14 +1282,15 @@ footer{
 .coming-soon:hover{ transform:none !important; }
 
 @media(max-width:980px){
-  .author-card{flex-direction:column;align-items:stretch;min-height:auto;gap:0}
-  .author-cover{width:100%;height:260px}
-  .author-cover::after{background:linear-gradient(180deg,transparent,rgba(0,0,0,.82))}
-  .author-content{padding:28px;text-align:center}
-  .author-name{font-size:16px}
-  .author-quote{font-size:17px;margin-left:auto;margin-right:auto}
-  .author-socials{justify-content:center}
-  .author-track{margin-left:auto;margin-right:auto}
+  .author-card{ height:80px; }
+  .author-content{ width:70%; padding:0 14px; gap:10px; }
+  .author-name{ font-size:15px; }
+  .author-status{ font-size:9px; padding:3px 8px; }
+  #artist-panel-socials{ flex-wrap:wrap; gap:6px; }
+  #artist-panel-socials a{ font-size:12px; padding:5px 10px; }
+  #artist-panel-songs{ grid-template-columns:1fr; }
+  .author-quote{ font-size:17px; margin-left:auto; margin-right:auto; }
+  .author-socials{ justify-content:center; }
 }
 
 </style>
@@ -1488,6 +1502,14 @@ footer{
 <h2 data-key="authorsTitle">Հεղinakner</h2>
 <div class="authors-grid">
 
+<div class="author-card" onclick="openArtistPanel('imastun')">
+  <div class="author-cover"><img src="authors/imastun/cover.jpg" alt="Imastun"></div>
+  <div class="author-content">
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Imastun</h3>
+  </div>
+</div>
+
 <div class="author-card" onclick="openArtistPanel('silva')">
   <div class="author-cover"><img src="authors/silva-gulanyan/cover.jpg" alt="Silva"></div>
   <div class="author-content">
@@ -1501,14 +1523,6 @@ footer{
   <div class="author-content">
     <span class="author-status">FEATURED</span>
     <h3 class="author-name">Гo Харa</h3>
-  </div>
-</div>
-
-<div class="author-card" onclick="openArtistPanel('imastun')">
-  <div class="author-cover"><img src="authors/imastun/cover.jpg" alt="Imastun"></div>
-  <div class="author-content">
-    <span class="author-status">FEATURED</span>
-    <h3 class="author-name">Imastun</h3>
   </div>
 </div>
 
@@ -1550,7 +1564,10 @@ footer{
 <div id="artist-panel">
   <div id="artist-panel-header">
     <img id="artist-panel-img" src="" alt="">
-    <div id="artist-panel-name"></div>
+    <div style="flex:1">
+      <div id="artist-panel-name"></div>
+      <div id="artist-panel-socials" class="author-socials" style="margin-top:10px;justify-content:flex-start;"></div>
+    </div>
     <button id="artist-panel-close" onclick="closeArtistPanel()">✕ Փakел</button>
   </div>
   <div id="artist-panel-songs"></div>
@@ -2145,9 +2162,46 @@ const artistSongs={
 };
 
 const artistInfo={
-  silva:{name:'Սилва Гуланян',img:'authors/silva-gulanyan/cover.jpg'},
-  gohara:{name:'Гo Харa',img:'authors/go-hara/cover.jpg'},
-  imastun:{name:'Imastun',img:'authors/imastun/cover.jpg'}
+  silva:{
+    name:'Սիلва Гуланян',
+    img:'authors/silva-gulanyan/cover.jpg',
+    socials:[
+      {label:'Facebook',url:'https://www.facebook.com/Vahan.Vardevanyan'},
+      {label:'Messenger',url:'https://m.me/Vahan.Vardevanyan'},
+      {label:'Instagram',url:'https://www.instagram.com/'},
+      {label:'YouTube',url:'https://www.youtube.com/'},
+      {label:'TikTok',url:'https://www.tiktok.com/'},
+      {label:'Telegram',url:'https://t.me/'},
+      {label:'Website',url:'https://imastunstudios.netlify.app/'}
+    ]
+  },
+  gohara:{
+    name:'Гo Харa',
+    img:'authors/go-hara/cover.jpg',
+    socials:[
+      {label:'Facebook',url:'https://www.facebook.com/Vahan.Vardevanyan'},
+      {label:'Messenger',url:'https://m.me/Vahan.Vardevanyan'},
+      {label:'Instagram',url:'https://www.instagram.com/'},
+      {label:'YouTube',url:'https://www.youtube.com/'},
+      {label:'TikTok',url:'https://www.tiktok.com/'},
+      {label:'Telegram',url:'https://t.me/'},
+      {label:'Website',url:'https://imastunstudios.netlify.app/'}
+    ]
+  },
+  imastun:{
+    name:'Imastun',
+    img:'authors/imastun/cover.jpg',
+    socials:[
+      {label:'Facebook',url:'https://www.facebook.com/Vahan.Vardevanyan'},
+      {label:'Messenger',url:'https://m.me/Vahan.Vardevanyan'},
+      {label:'Instagram',url:'https://www.instagram.com/'},
+      {label:'YouTube',url:'https://www.youtube.com/'},
+      {label:'Suno',url:'https://suno.com/'},
+      {label:'TikTok',url:'https://www.tiktok.com/'},
+      {label:'Telegram',url:'https://t.me/'},
+      {label:'Website',url:'https://imastunstudios.netlify.app/'}
+    ]
+  }
 };
 
 function openArtistPanel(key){
@@ -2157,11 +2211,19 @@ function openArtistPanel(key){
 
   // Mark active card
   document.querySelectorAll('.author-card').forEach(c=>c.classList.remove('active-artist'));
-  document.querySelector(`.author-card[onclick*="${key}"]`)?.classList.add('active-artist');
+  document.querySelector(`.author-card[onclick*="'${key}'"]`)?.classList.add('active-artist');
 
   // Set header
   document.getElementById('artist-panel-img').src=info.img;
   document.getElementById('artist-panel-name').textContent=info.name;
+
+  // Social links
+  const socialsEl=document.getElementById('artist-panel-socials');
+  if(socialsEl&&info.socials){
+    socialsEl.innerHTML=info.socials.map(s=>
+      `<a href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`
+    ).join('');
+  }
 
   // Build song mini-cards
   const container=document.getElementById('artist-panel-songs');
@@ -2200,16 +2262,24 @@ function closeArtistPanel(){
 
 /* Single audio rule — stop ALL other audios when one plays */
 function stopOtherAudios(current){
+  // Stop all audio elements
   document.querySelectorAll('audio').forEach(a=>{
     if(a!==current){ a.pause(); a.currentTime=0; }
   });
-  // Also pause playlist audio if playing
+  // Stop all video elements (except background video)
+  document.querySelectorAll('video:not(.bg-video)').forEach(v=>{
+    v.pause(); v.currentTime=0;
+  });
+  // Also pause playlist audio
   if(typeof plAudio!=='undefined'&&plAudio!==current){ plAudio.pause(); }
 }
 
-// Also apply to all page audios
+// Single media rule — fires on ANY audio or video play
 document.addEventListener('play', e=>{
-  if(e.target.tagName==='AUDIO') stopOtherAudios(e.target);
+  if(e.target.tagName==='AUDIO'||e.target.tagName==='VIDEO'){
+    if(e.target.classList.contains('bg-video')) return;
+    stopOtherAudios(e.target);
+  }
 }, true);
 const authorData={
   silva:{name:'Սիлva Gulanyan',img:'authors/silva-gulanyan/cover.jpg',quote:'«Barere tsnvum en hogu xorqum…»',bio:'Silva Gulanyan — hay kinematografik erchuh, vor dzayn kamrjum e poezian ev yerazhshtutyan. Nra stexsagortsutyunnere nerycxvats en karotov, sirov ev azgayin ogyov.',songs:'Inch em anelu · Tsov arev achqer · Gij qamin · Yergichd dari'},
