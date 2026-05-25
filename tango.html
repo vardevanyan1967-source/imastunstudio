@@ -50,9 +50,10 @@ body.light-mode{
   --muted:#4a3f28;
   --line:rgba(140,100,20,.25);
   background:
-    radial-gradient(circle at 15% 10%, rgba(212,175,55,.12), transparent 28%),
-    radial-gradient(circle at 80% 20%, rgba(180,140,20,.08), transparent 25%),
-    linear-gradient(180deg,#f8f2e6,#f0e8d4) !important;
+    linear-gradient(180deg,
+      rgba(245,235,210,.82) 0%,
+      rgba(240,225,195,.88) 100%),
+    url('light-bg.jpg') center/cover fixed !important;
   color:var(--text);
 }
 body.light-mode .card{
@@ -72,7 +73,23 @@ body.light-mode h2{ color:#7a5c10; text-shadow:none; }
 body.light-mode .author-card{ background:#ede8dc; border-color:rgba(140,100,20,.25); }
 body.light-mode .panel-song-card{ background:rgba(240,230,200,.9); border-color:rgba(140,100,20,.2); }
 body.light-mode .psong-title{ color:#7a5c10; }
-body.light-mode .search-box{ background:rgba(245,240,230,.95); color:#1a1408; }
+body.light-mode .search-box{
+  background:rgba(255,255,255,.95) !important;
+  color:#1a1408 !important;
+  border-color:rgba(140,100,20,.4) !important;
+  box-shadow:0 2px 20px rgba(140,100,20,.1) !important;
+}
+body.light-mode .search-box::placeholder{ color:#8a7550 !important; }
+body.light-mode .search-empty{ color:#8a7550 !important; }
+body.light-mode .filter-btn{
+  background:rgba(255,255,255,.8) !important;
+  color:#7a5c10 !important;
+  border-color:rgba(140,100,20,.3) !important;
+}
+body.light-mode .filter-btn.active{
+  background:#d4af37 !important;
+  color:#000 !important;
+}
 body.light-mode .filter-btn{ background:rgba(240,230,200,.8); color:#7a5c10; }
 body.light-mode .author-header{ background:rgba(240,230,200,.6); }
 body.light-mode .author-title,.body.light-mode .author-name{ color:#7a5c10; }
@@ -1671,11 +1688,12 @@ footer{
 <a href="#video" data-key="navVideo">Վիդեո</a>
 <a href="#poetry" data-key="navPoetry">Պոեզիա</a>
 <a href="#contact" data-key="navContact">Կապ</a>
+<a href="#" onclick="openPlaylistFromNav(event)" style="color:#ffd54f;font-weight:bold;">▶ Playlist</a>
 
 </nav>
 
 <div class="search-wrap">
-  <input class="search-box" id="searchBox" type="search" placeholder="🔍 Որонел erg kam heghianak…" autocomplete="off">
+  <input class="search-box" id="searchBox" type="search" placeholder="🔍 Փntrծl եrg կաm հեղի坯ակ…" autocomplete="off">
 </div>
 <div class="filter-wrap" id="filterWrap">
   <button class="filter-btn active" data-filter="all">Բոlorerы</button>
@@ -2439,6 +2457,24 @@ function toggleMobileNav(){
   nav.classList.toggle('mobile-open');
   btn.classList.toggle('open');
   document.body.style.overflow=nav.classList.contains('mobile-open')?'hidden':'';
+}
+
+function openPlaylistFromNav(e){
+  e.preventDefault();
+  const bar=document.getElementById('playlist-bar');
+  if(bar){
+    bar.classList.add('open');
+    // Expand list
+    plExpanded=true;
+    document.getElementById('playlist-list').classList.add('expanded');
+    document.getElementById('playlist-toggle-btn').textContent='▼';
+    // Scroll to bottom to see playlist bar
+    bar.scrollIntoView({behavior:'smooth',block:'end'});
+  }
+  // Close mobile nav if open
+  document.getElementById('main-nav')?.classList.remove('mobile-open');
+  document.getElementById('hamburger')?.classList.remove('open');
+  document.body.style.overflow='';
 }
 // Close nav when link clicked
 document.addEventListener('click',e=>{
