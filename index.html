@@ -9,6 +9,11 @@
 <meta name="keywords" content="Imastun Studio, Armenian poetry, Armenian music, cinematic songs, Silva Gulanyan, Gohara, Vahan">
 <meta name="author" content="IMASTUN STUDIO">
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --bg:#050505;
@@ -435,12 +440,203 @@ video:hover{
   box-shadow:0 0 22px rgba(212,175,55,.18);
 }
 
+/* ══ PRELOADER ══ */
+#preloader{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:#030303;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  transition:opacity .8s ease, visibility .8s ease;
+}
+#preloader.hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.pre-logo{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:52px;
+  font-weight:700;
+  color:#d4af37;
+  letter-spacing:10px;
+  text-shadow:0 0 40px rgba(212,175,55,.6);
+  animation:preGlow 1.5s ease-in-out infinite;
+}
+.pre-sub{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:18px;
+  letter-spacing:8px;
+  color:#8a7540;
+}
+.pre-line{
+  width:120px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#d4af37,transparent);
+  animation:preExpand 1.5s ease-in-out infinite;
+}
+@keyframes preGlow{
+  0%,100%{text-shadow:0 0 20px rgba(212,175,55,.4);}
+  50%{text-shadow:0 0 60px rgba(212,175,55,.9),0 0 120px rgba(212,175,55,.3);}
+}
+@keyframes preExpand{
+  0%,100%{width:80px;opacity:.5;}
+  50%{width:180px;opacity:1;}
+}
+
+/* ══ HERO CTA BUTTONS ══ */
+.hero-cta{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:36px;
+}
+.hero-btn{
+  display:inline-block;
+  padding:14px 30px;
+  border-radius:999px;
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:17px;
+  font-weight:600;
+  text-decoration:none;
+  transition:.35s ease;
+  letter-spacing:1px;
+}
+.hero-btn-primary{
+  background:linear-gradient(135deg,#d4af37,#ffe082);
+  color:#000;
+  box-shadow:0 0 30px rgba(212,175,55,.45),0 4px 20px rgba(0,0,0,.3);
+}
+.hero-btn-primary:hover{
+  transform:translateY(-3px) scale(1.04);
+  box-shadow:0 0 50px rgba(212,175,55,.65),0 8px 30px rgba(0,0,0,.4);
+}
+.hero-btn-secondary{
+  background:rgba(212,175,55,.08);
+  color:#ffd86b;
+  border:1px solid rgba(212,175,55,.45);
+  backdrop-filter:blur(10px);
+}
+.hero-btn-secondary:hover{
+  background:rgba(212,175,55,.18);
+  transform:translateY(-3px);
+  box-shadow:0 0 30px rgba(212,175,55,.25);
+  border-color:rgba(212,175,55,.7);
+}
+
+/* ══ SECTION DIVIDERS ══ */
+.section-divider{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  max-width:600px;
+  margin:0 auto;
+  padding:10px 40px;
+}
+.divider-line{
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,175,55,.45),transparent);
+}
+.divider-ornament{
+  color:#d4af37;
+  font-size:18px;
+  opacity:.7;
+  text-shadow:0 0 12px rgba(212,175,55,.5);
+}
+
+/* ══ CORMORANT GARAMOND — заголовки ══ */
+.brand-title,
+h2,
+.author-title,
+.author-name,
+.pre-logo,
+.hero-btn{
+  font-family:'Cormorant Garamond', Georgia, serif;
+}
+
+/* h2 крупнее и изящнее */
+h2{
+  font-size:48px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-shadow:
+    0 0 20px rgba(212,175,55,.4),
+    0 0 60px rgba(212,175,55,.12);
+}
+
+/* nav — active state при скролле */
+nav a{
+  position:relative;
+}
+nav a.nav-active{
+  color:#fff;
+  background:rgba(212,175,55,.1);
+}
+nav a::after{
+  content:'';
+  position:absolute;
+  bottom:4px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;
+  height:2px;
+  background:#d4af37;
+  border-radius:999px;
+  transition:.3s ease;
+}
+nav a:hover::after,
+nav a.nav-active::after{
+  width:60%;
+}
+
+/* ══ SCROLL TO TOP ══ */
+#scroll-top{
+  position:fixed;
+  bottom:90px;
+  right:18px;
+  z-index:8000;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#d4af37,#ffe082);
+  color:#000;
+  border:none;
+  font-size:20px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 20px rgba(212,175,55,.4);
+  transition:.35s;
+  opacity:0;
+  pointer-events:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#scroll-top.visible{
+  opacity:1;
+  pointer-events:auto;
+}
+#scroll-top:hover{
+  transform:translateY(-3px) scale(1.1);
+  box-shadow:0 0 35px rgba(212,175,55,.65);
+}
+
 footer{
   padding:40px;
   text-align:center;
   background:#080808;
   color:#9c8449;
   margin-top:50px;
+  padding-bottom:60px;
+  font-family:'Cormorant Garamond', Georgia, serif;
+  letter-spacing:2px;
+  font-size:15px;
 }
 
 @media(max-width:900px){
@@ -487,77 +683,125 @@ footer{
     padding:12px 10px;
   }
 
-  nav::-webkit-scrollbar{
-    display:none;
-  }
+  nav::-webkit-scrollbar{ display:none; }
 
   nav a{
     font-size:15px;
     padding:8px 7px;
   }
 
+  /* Sections — меньше отступ сверху/снизу */
   section{
-    padding:58px 4%;
+    padding:40px 3%;
   }
 
+  /* Grid — одна колонка, меньше отступы */
   .grid{
     grid-template-columns:1fr;
-    padding:18px;
-    gap:30px;
+    padding:8px;
+    gap:22px;
   }
 
   #video .grid{
     grid-template-columns:1fr;
   }
 
+  /* ══ КАРТОЧКИ — ЯРЧЕ, КРУПНЕЕ ══ */
   .card{
-    padding:18px;
+    padding:20px 18px 22px;
     background:linear-gradient(145deg,
-      rgba(255,210,60,.14) 0%,
-      rgba(255,255,255,.1) 50%,
-      rgba(212,175,55,.08) 100%);
-    border:1px solid rgba(212,175,55,.42);
+      rgba(255,215,60,.18) 0%,
+      rgba(255,255,255,.13) 50%,
+      rgba(212,175,55,.1) 100%);
+    border:1px solid rgba(212,175,55,.5);
     box-shadow:
-      0 0 0 1px rgba(255,215,0,.1) inset,
-      0 4px 24px rgba(0,0,0,.3),
-      0 0 40px rgba(212,175,55,.1);
+      0 0 0 1px rgba(255,215,0,.14) inset,
+      0 4px 28px rgba(0,0,0,.25),
+      0 0 50px rgba(212,175,55,.14);
+    border-radius:22px;
   }
 
+  /* Заголовок карточки крупнее и ярче */
   .card h3{
-    font-size:21px;
+    font-size:22px;
+    text-shadow:
+      0 0 20px rgba(212,175,55,.8),
+      0 0 50px rgba(212,175,55,.35);
+    margin-bottom:12px;
+  }
+
+  /* Описание карточки читаемее */
+  .card p{
+    font-size:14px;
+    color:#e8d8b0;
+    margin-bottom:14px;
   }
 
   h2{
-    font-size:34px;
-    margin-bottom:34px;
+    font-size:30px;
+    margin-bottom:24px;
+    margin-top:10px;
   }
 
   video{
-    height:560px;
+    height:220px;
     max-width:100%;
+    border-radius:16px;
   }
 
   .poem{
-    font-size:20px;
+    font-size:18px;
     line-height:1.8;
   }
 
-  .author-title{
-    font-size:30px;
+  .author-title{ font-size:26px; }
+  .author-logo{ width:220px; }
+  .silva-logo{ width:280px; transform:translateX(-4px); }
+  .author-header{ padding:22px 16px; }
+
+  /* ══ КНОПКИ СОЦСЕТЕЙ — КРУПНЕЕ, ЯРЧЕ ══ */
+  .author-socials{
+    gap:10px;
+    justify-content:center;
   }
 
-  .author-logo{
-    width:240px;
+  .author-socials a{
+    padding:12px 20px;
+    font-size:15px;
+    border:1px solid rgba(212,175,55,.6);
+    background:rgba(212,175,55,.2);
+    color:#ffe090;
+    box-shadow:0 0 20px rgba(212,175,55,.25);
+    min-height:46px;
+    display:flex;
+    align-items:center;
   }
 
-  .silva-logo{
-    width:300px;
-    transform:translateX(-4px);
+  /* ══ ОТСТУП СНИЗУ ПОД PLAYLIST BAR ══ */
+  body{
+    padding-bottom:120px;
   }
 
-  .author-header{
-    padding:30px 18px;
-  }
+  /* Search и filter компактнее */
+  .search-wrap{ padding:0 3% 20px; }
+  .search-box{ font-size:15px; padding:12px 18px; }
+  .filter-wrap{ padding:0 3% 24px; gap:8px; }
+  .filter-btn{ font-size:12px; padding:7px 14px; }
+
+  /* Artist panel */
+  #artist-panel-songs{ grid-template-columns:1fr; }
+  #artist-panel-header{ flex-wrap:wrap; gap:12px; }
+  #artist-panel-name{ font-size:20px; }
+  .artist-panel-socials a{ padding:10px 16px; font-size:13px; min-height:42px; display:inline-flex; align-items:center; }
+
+  /* Playlist bar на мобиле */
+  .pl-controls{ flex-wrap:wrap; gap:8px; padding:8px 14px 10px; }
+  #pl-volume{ width:55px; }
+  .pl-time{ font-size:11px; }
+
+  /* Panel song cards */
+  .panel-song-card{ padding:14px 16px; }
+  .psong-title{ font-size:16px; }
 }
 
 /* ===== CLEAN AUTHOR SYSTEM V3 ===== */
@@ -835,42 +1079,51 @@ footer{
 /* ══ MOBILE ══ */
 @media(max-width:900px){
   /* Author cards — full width, taller, image fills */
-  .authors-grid{padding:10px;}
+  .authors-grid{ padding:8px; gap:14px; }
   .author-card{
-    height:220px;
+    height:200px;
     border-radius:16px;
-    border:1px solid rgba(212,175,55,.38);
-    box-shadow:0 0 30px rgba(212,175,55,.12),0 4px 20px rgba(0,0,0,.4);
+    border:1px solid rgba(212,175,55,.42);
+    box-shadow:0 0 30px rgba(212,175,55,.15),0 4px 20px rgba(0,0,0,.3);
   }
   .author-cover img{
-    filter:brightness(1.4) contrast(1.08) saturate(1.1);
-    object-position:center 20%;
+    filter:brightness(1.45) contrast(1.1) saturate(1.15);
+    object-position:center 15%;
   }
   .author-cover::after{
-    background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.15) 35%,rgba(0,0,0,.68) 100%);
+    background:linear-gradient(90deg,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,.1) 30%,
+      rgba(0,0,0,.65) 100%);
   }
-  .author-content{width:58%;padding:0 16px;gap:8px;}
-  .author-name{font-size:16px;text-shadow:0 0 20px rgba(212,175,55,.8);}
-  .author-status{font-size:10px;padding:4px 10px;}
+  .author-content{ width:55%; padding:0 14px; gap:8px; }
+  .author-name{
+    font-size:15px;
+    text-shadow:0 0 25px rgba(212,175,55,.9),0 2px 4px rgba(0,0,0,.8);
+  }
+  .author-status{ font-size:10px; padding:3px 10px; }
 
-  /* Card h3 brighter on mobile */
+  /* Card h3 brighter */
   .card h3{
-    font-size:21px;
-    text-shadow:0 0 16px rgba(212,175,55,.7),0 0 40px rgba(212,175,55,.3);
+    text-shadow:0 0 20px rgba(212,175,55,.8),0 0 50px rgba(212,175,55,.35);
   }
 
-  /* Artist panel songs — 1 column */
-  #artist-panel-songs{grid-template-columns:1fr;}
-  .pl-controls{flex-wrap:wrap;gap:8px;}
-
-  /* Music cards grid */
-  .grid{padding:10px;gap:20px;}
+  /* Artist panel */
+  #artist-panel-songs{ grid-template-columns:1fr; }
+  .pl-controls{ flex-wrap:wrap; gap:8px; }
 }
 
 </style>
 </head>
 
 <body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pre-logo">IMASTUN</div>
+  <div class="pre-line"></div>
+  <div class="pre-sub">STUDIO</div>
+</div>
 
 <div class="lang-switcher">
   <button onclick="setLang('hy')" class="active">HY</button>
@@ -887,8 +1140,13 @@ footer{
 <div>
 <img src="logo.png" class="logo-img" alt="IMASTUN STUDIO Logo">
 <div class="brand-title">IMASTUN STUDIO</div>
-<div class="subtitle" data-key="subtitle">ՊՈԵԶԻԱՅԻ ԱՇԽԱՐՀ</div>
-<p class="hero-note" data-key="heroNote">Պոեզիա, երաժշտություն և կինեմատոգրաֆիկ վիդեոներ մեկ մութ-ոսկեգույն ստեղծագործական աշխարհում։</p>
+<div class="subtitle" data-key="subtitle">ՊՈԵЗИЯYAYИ АSHХАРH</div>
+<p class="hero-note" data-key="heroNote">Пoeziа, yerazhshtutyan ev kinematografik videoner mek mut-voskeguyn stexsagortsakan ashxarhum.</p>
+<div class="hero-cta">
+  <a href="#silva" class="hero-btn hero-btn-primary">🎵 Слушать</a>
+  <a href="#video" class="hero-btn hero-btn-secondary">▶ Смотреть</a>
+  <a href="#authors" class="hero-btn hero-btn-secondary">✦ Авторы</a>
+</div>
 </div>
 </header>
 
@@ -938,6 +1196,12 @@ footer{
 </div>
 </section>
 
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <div class="divider-ornament">✦</div>
+  <div class="divider-line"></div>
+</div>
 <section id="gohara" class="author-section" data-section="gohara">
 <div class="author-header" style="padding:20px 32px;max-width:680px;">
 <h2 class="author-title" data-key="goharaName" style="font-size:28px;margin-bottom:8px;">ԳՕ ՀАРА</h2>
@@ -1023,6 +1287,12 @@ footer{
   </div>
 </section>
 
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <div class="divider-ornament">✦</div>
+  <div class="divider-line"></div>
+</div>
 <section id="imastun" class="author-section" data-section="imastun">
   <div class="author-header">
     <h2 class="author-title">IMASTUN</h2>
@@ -1049,6 +1319,12 @@ footer{
 </section>
 
 
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <div class="divider-ornament">✦</div>
+  <div class="divider-line"></div>
+</div>
 <section id="authors">
 <h2 data-key="authorsTitle">Հեղինակներ</h2>
 <div class="authors-grid">
@@ -1223,6 +1499,12 @@ footer{
 </div>
 </section>
 
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <div class="divider-ornament">✦</div>
+  <div class="divider-line"></div>
+</div>
 <section id="video">
 <h2 data-key="videos">Վիդեոներ</h2>
 <div class="grid">
@@ -1237,6 +1519,12 @@ footer{
 </div>
 </section>
 
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <div class="divider-ornament">✦</div>
+  <div class="divider-line"></div>
+</div>
 <section id="poetry">
 <h2 data-key="poetry">Պոեզիա</h2>
 <div class="poem" data-key="poemText">
@@ -1245,6 +1533,12 @@ footer{
 </div>
 </section>
 
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <div class="divider-ornament">✦</div>
+  <div class="divider-line"></div>
+</div>
 <section id="contact">
 <h2 data-key="contact">Կապ</h2>
 <div class="poem">IMASTUN STUDIO</div>
@@ -1292,6 +1586,8 @@ footer{
   </div>
   <div id="playlist-list"></div>
 </div>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Наверх">↑</button>
+
 <footer>© 2026 IMASTUN STUDIO</footer>
 
 <script>
@@ -1439,6 +1735,32 @@ document.addEventListener('DOMContentLoaded', function(){
   initLazyReveal();
   initParticles();
   initLightbox();
+
+  // Preloader — hide after 1.8s or when page loads
+  const pre = document.getElementById('preloader');
+  const hidePreloader = () => { if(pre) pre.classList.add('hidden'); };
+  window.addEventListener('load', ()=> setTimeout(hidePreloader, 600));
+  setTimeout(hidePreloader, 2200); // fallback
+
+  // Scroll to top button
+  const btn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', ()=>{
+    if(btn) btn.classList.toggle('visible', window.scrollY > 400);
+  }, {passive:true});
+
+  // Nav active state on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        navLinks.forEach(a=>a.classList.remove('nav-active'));
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if(active) active.classList.add('nav-active');
+      }
+    });
+  },{threshold:0.3});
+  sections.forEach(s=>observer.observe(s));
 });
 
 /* ═══════════════════════════════════
