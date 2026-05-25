@@ -1099,7 +1099,7 @@ footer{
   position:relative;
   display:flex;
   align-items:center;
-  height:120px;
+  height:360px;
   border-radius:20px;
   overflow:hidden;
   background:#090909;
@@ -1282,7 +1282,7 @@ footer{
 .coming-soon:hover{ transform:none !important; }
 
 @media(max-width:980px){
-  .author-card{ height:80px; }
+  .author-card{ height:240px; }
   .author-content{ width:70%; padding:0 14px; gap:10px; }
   .author-name{ font-size:15px; }
   .author-status{ font-size:9px; padding:3px 8px; }
@@ -1372,6 +1372,83 @@ footer{
 <h2 class="author-title" data-key="silvaName">ՍԻԼՎԱ ԳՈՒԼԱՆՅԱՆ</h2>
 <p class="author-quote" data-key="silvaQuote">«Բառերը ծնվում են հոգու խորքում…»</p>
 </div>
+</section>
+
+<section id="authors">
+<h2 data-key="authorsTitle">Հεղinakner</h2>
+<div class="authors-grid">
+
+<div class="author-card" onclick="openArtistPanel('imastun')">
+  <div class="author-cover"><img src="authors/imastun/cover.jpg" alt="Imastun"></div>
+  <div class="author-content">
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Imastun</h3>
+  </div>
+</div>
+
+<div class="author-card" onclick="openArtistPanel('silva')">
+  <div class="author-cover"><img src="authors/silva-gulanyan/cover.jpg" alt="Silva"></div>
+  <div class="author-content">
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Սիլվա Գուլանյան</h3>
+  </div>
+</div>
+
+<div class="author-card" onclick="openArtistPanel('gohara')">
+  <div class="author-cover"><img src="authors/go-hara/cover.jpg" alt="Go Hara"></div>
+  <div class="author-content">
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Գo Հara</h3>
+  </div>
+</div>
+
+<div class="author-card coming-soon">
+  <div class="author-cover"><img src="authors/lilit-aghasyan/cover.jpg" alt="Lilit"></div>
+  <div class="author-content">
+    <span class="author-status">COMING SOON</span>
+    <h3 class="author-name">Լիլիթ Աղասյան</h3>
+  </div>
+</div>
+
+<div class="author-card coming-soon">
+  <div class="author-cover"><img src="authors/mareta-sargsyan/cover.jpg" alt="Mareta"></div>
+  <div class="author-content">
+    <span class="author-status">COMING SOON</span>
+    <h3 class="author-name">Մարետա Սարգսյան</h3>
+  </div>
+</div>
+
+<div class="author-card coming-soon">
+  <div class="author-cover"><img src="authors/narine-balasbekyan/cover.jpg" alt="Narine"></div>
+  <div class="author-content">
+    <span class="author-status">COMING SOON</span>
+    <h3 class="author-name">Նարինե Բալասբեկյան</h3>
+  </div>
+</div>
+
+<div class="author-card coming-soon">
+  <div class="author-cover"><img src="authors/nune-muradyan/cover.jpg" alt="Nune"></div>
+  <div class="author-content">
+    <span class="author-status">COMING SOON</span>
+    <h3 class="author-name">Նունե Մուրադյան</h3>
+  </div>
+</div>
+
+</div>
+
+<!-- Artist Songs Panel -->
+<div id="artist-panel">
+  <div id="artist-panel-header">
+    <img id="artist-panel-img" src="" alt="">
+    <div style="flex:1">
+      <div id="artist-panel-name"></div>
+      <div id="artist-panel-socials" class="author-socials" style="margin-top:10px;justify-content:flex-start;"></div>
+    </div>
+    <button id="artist-panel-close" onclick="closeArtistPanel()">✕ Փakел</button>
+  </div>
+  <div id="artist-panel-songs"></div>
+</div>
+
 </section>
 
 <section data-section="silva">
@@ -1498,82 +1575,7 @@ footer{
 </section>
 
 
-<section id="authors">
-<h2 data-key="authorsTitle">Հεղinakner</h2>
-<div class="authors-grid">
 
-<div class="author-card" onclick="openArtistPanel('imastun')">
-  <div class="author-cover"><img src="authors/imastun/cover.jpg" alt="Imastun"></div>
-  <div class="author-content">
-    <span class="author-status">FEATURED</span>
-    <h3 class="author-name">Imastun</h3>
-  </div>
-</div>
-
-<div class="author-card" onclick="openArtistPanel('silva')">
-  <div class="author-cover"><img src="authors/silva-gulanyan/cover.jpg" alt="Silva"></div>
-  <div class="author-content">
-    <span class="author-status">FEATURED</span>
-    <h3 class="author-name">Սилва Гуланян</h3>
-  </div>
-</div>
-
-<div class="author-card" onclick="openArtistPanel('gohara')">
-  <div class="author-cover"><img src="authors/go-hara/cover.jpg" alt="Go Hara"></div>
-  <div class="author-content">
-    <span class="author-status">FEATURED</span>
-    <h3 class="author-name">Гo Харa</h3>
-  </div>
-</div>
-
-<div class="author-card coming-soon">
-  <div class="author-cover"><img src="authors/lilit-aghasyan/cover.jpg" alt="Lilit"></div>
-  <div class="author-content">
-    <span class="author-status">COMING SOON</span>
-    <h3 class="author-name">Лилит Агасян</h3>
-  </div>
-</div>
-
-<div class="author-card coming-soon">
-  <div class="author-cover"><img src="authors/mareta-sargsyan/cover.jpg" alt="Mareta"></div>
-  <div class="author-content">
-    <span class="author-status">COMING SOON</span>
-    <h3 class="author-name">Марета Саргсян</h3>
-  </div>
-</div>
-
-<div class="author-card coming-soon">
-  <div class="author-cover"><img src="authors/narine-balasbekyan/cover.jpg" alt="Narine"></div>
-  <div class="author-content">
-    <span class="author-status">COMING SOON</span>
-    <h3 class="author-name">Нарине Баласбекян</h3>
-  </div>
-</div>
-
-<div class="author-card coming-soon">
-  <div class="author-cover"><img src="authors/nune-muradyan/cover.jpg" alt="Nune"></div>
-  <div class="author-content">
-    <span class="author-status">COMING SOON</span>
-    <h3 class="author-name">Нунe Мурадян</h3>
-  </div>
-</div>
-
-</div>
-
-<!-- Artist Songs Panel -->
-<div id="artist-panel">
-  <div id="artist-panel-header">
-    <img id="artist-panel-img" src="" alt="">
-    <div style="flex:1">
-      <div id="artist-panel-name"></div>
-      <div id="artist-panel-socials" class="author-socials" style="margin-top:10px;justify-content:flex-start;"></div>
-    </div>
-    <button id="artist-panel-close" onclick="closeArtistPanel()">✕ Փakел</button>
-  </div>
-  <div id="artist-panel-songs"></div>
-</div>
-
-</section>
 
 <section id="video">
 <h2 data-key="videos">Վիդեոներ</h2>
