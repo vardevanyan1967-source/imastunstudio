@@ -8,6 +8,22 @@
 <meta name="description" content="IMASTUN STUDIO — պոեզիա, երաժշտություն, վիդեո և հայկական կինեմատոգրաֆիկ արվեստ։">
 <meta name="keywords" content="Imastun Studio, Armenian poetry, Armenian music, cinematic songs, Silva Gulanyan, Gohara, Vahan">
 <meta name="author" content="IMASTUN STUDIO">
+<meta name="theme-color" content="#d4af37">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://imastunstudios.netlify.app/">
+<meta property="og:title" content="IMASTUN STUDIO | Պոеziayi Ashxarh">
+<meta property="og:description" content="Poеzia, музыка и cinematic видео — Сильва, Го Хара, Imastun.">
+<meta property="og:image" content="https://imastunstudios.netlify.app/logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IMASTUN STUDIO">
+<meta name="twitter:image" content="https://imastunstudios.netlify.app/logo.png">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="logo.png">
+
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -350,6 +366,31 @@ h2{
   transition:all .45s ease;
 }
 
+/* Artist background image on card */
+.card[data-artist]::before-bg{
+  display:none;
+}
+.card .card-artist-bg{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center top;
+  opacity:.13;
+  filter:blur(3px) saturate(.7);
+  transition:opacity .5s;
+  z-index:0;
+  border-radius:28px;
+}
+.card:hover .card-artist-bg{
+  opacity:.22;
+  filter:blur(2px) saturate(.9);
+}
+/* Make sure card content is above bg */
+.card > *:not(.card-artist-bg){
+  position:relative;
+  z-index:1;
+}
+
 /* top shine line */
 .card::after{
   content:"";
@@ -419,14 +460,15 @@ audio{
 }
 
 #video .grid{
-  grid-template-columns:repeat(2,minmax(360px,1fr));
-  max-width:1180px;
+  grid-template-columns:repeat(3,1fr);
+  max-width:1400px;
   align-items:start;
+  gap:24px;
 }
 
 #video .card{
-  max-width:530px;
-  margin:auto;
+  max-width:100%;
+  margin:0;
 }
 
 /* Background video and standalone videos */
@@ -705,6 +747,278 @@ body.light-mode #theme-toggle{ background:rgba(240,230,200,.9);color:#7a5c10; }
   to{   opacity:1;transform:translateY(0) scale(1) rotateX(0deg); }
 }
 
+/* ══ SLEEP TIMER ══ */
+#sleep-timer-btn{
+  position:fixed;
+  bottom:90px; left:18px;
+  z-index:8000;
+  background:rgba(10,10,10,.88);
+  border:1px solid rgba(212,175,55,.3);
+  color:#d4af37;
+  border-radius:999px;
+  padding:8px 14px;
+  font-size:13px;
+  cursor:pointer;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  transition:.3s;
+  backdrop-filter:blur(10px);
+  display:none;
+}
+#sleep-timer-btn.visible{ display:block; }
+#sleep-timer-btn.active{ background:rgba(212,175,55,.15); border-color:var(--gold); }
+#sleep-menu{
+  position:fixed;
+  bottom:135px; left:18px;
+  z-index:8001;
+  background:rgba(8,6,2,.96);
+  border:1px solid rgba(212,175,55,.25);
+  border-radius:16px;
+  padding:10px 0;
+  min-width:160px;
+  backdrop-filter:blur(16px);
+  display:none;
+  box-shadow:0 0 30px rgba(0,0,0,.6);
+}
+#sleep-menu.open{ display:block; }
+#sleep-menu button{
+  display:block; width:100%;
+  padding:10px 18px; text-align:left;
+  background:none; border:none;
+  color:#d4c29d; font-size:14px;
+  cursor:pointer; font-family:Georgia,serif;
+  transition:.2s;
+}
+#sleep-menu button:hover{ background:rgba(212,175,55,.1); color:#ffd86b; }
+#sleep-countdown{
+  position:fixed;
+  bottom:90px; left:80px;
+  z-index:8000;
+  color:rgba(212,175,55,.6);
+  font-size:12px;
+  font-family:Georgia,serif;
+  pointer-events:none;
+}
+
+/* ══ EQUALIZER VISUALIZER ══ */
+#eq-canvas{
+  position:fixed;
+  bottom:0; left:0; right:0;
+  height:60px;
+  z-index:9990;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .5s;
+}
+#eq-canvas.active{ opacity:.6; }
+
+/* ══ GLASSMORPHISM cards upgrade ══ */
+.card{
+  backdrop-filter:blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(1.4) !important;
+}
+
+/* ══ 3D HOVER on author cards ══ */
+.authors-grid{
+  perspective:1200px;
+}
+.author-card{
+  transform-style:preserve-3d;
+  transition:transform .4s ease, box-shadow .4s ease, border .4s ease !important;
+  will-change:transform;
+}
+.author-card:hover{
+  transform:rotateY(-4deg) rotateX(2deg) translateY(-6px) !important;
+}
+
+/* ══ HISTORY PANEL ══ */
+#history-btn{
+  position:fixed;
+  bottom:140px; right:18px;
+  z-index:8000;
+  background:rgba(10,10,10,.88);
+  border:1px solid rgba(212,175,55,.3);
+  color:#d4af37;
+  border-radius:50%;
+  width:44px; height:44px;
+  font-size:18px;
+  cursor:pointer;
+  transition:.3s;
+  backdrop-filter:blur(10px);
+  display:flex; align-items:center; justify-content:center;
+}
+#history-btn:hover{ background:rgba(212,175,55,.15); }
+#history-panel{
+  position:fixed;
+  bottom:190px; right:18px;
+  z-index:8001;
+  background:rgba(8,6,2,.97);
+  border:1px solid rgba(212,175,55,.25);
+  border-radius:18px;
+  padding:16px;
+  width:280px;
+  max-height:320px;
+  overflow-y:auto;
+  backdrop-filter:blur(16px);
+  display:none;
+  box-shadow:0 0 40px rgba(0,0,0,.6);
+}
+#history-panel.open{ display:block; }
+#history-panel h4{ color:#d4af37; font-size:14px; letter-spacing:1px; margin-bottom:12px; }
+.history-item{
+  display:flex; align-items:center; gap:10px;
+  padding:8px 0; border-bottom:1px solid rgba(212,175,55,.08);
+  cursor:pointer; transition:.2s;
+}
+.history-item:hover{ color:#ffd86b; }
+.history-item .hi-num{ color:#5a5040; font-size:11px; min-width:20px; }
+.history-item .hi-title{ font-size:13px; color:#d4c29d; flex:1; }
+.history-item .hi-count{ font-size:11px; color:rgba(212,175,55,.5); }
+.marquee-wrap{
+  overflow:hidden;
+  background:rgba(0,0,0,.6);
+  border-top:1px solid rgba(212,175,55,.15);
+  border-bottom:1px solid rgba(212,175,55,.15);
+  padding:10px 0;
+  backdrop-filter:blur(10px);
+}
+.marquee-track{
+  display:flex;
+  gap:0;
+  width:max-content;
+  animation:marqueeScroll 30s linear infinite;
+}
+.marquee-track span{
+  padding:0 32px;
+  color:rgba(212,175,55,.7);
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:15px;
+  letter-spacing:2px;
+  white-space:nowrap;
+}
+.marquee-wrap:hover .marquee-track{ animation-play-state:paused; }
+@keyframes marqueeScroll{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); }
+}
+
+/* ══ HAMBURGER MENU ══ */
+#hamburger{
+  display:none;
+  position:fixed;
+  top:14px;
+  right:80px;
+  z-index:5000;
+  background:rgba(10,10,10,.86);
+  border:1px solid rgba(212,175,55,.35);
+  border-radius:14px;
+  padding:10px 12px;
+  cursor:pointer;
+  gap:5px;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter:blur(10px);
+  transition:.3s;
+}
+#hamburger span{
+  display:block;
+  width:22px;
+  height:2px;
+  background:#d4af37;
+  border-radius:2px;
+  transition:.3s;
+}
+#hamburger.open span:nth-child(1){ transform:rotate(45deg) translate(5px,5px); }
+#hamburger.open span:nth-child(2){ opacity:0; }
+#hamburger.open span:nth-child(3){ transform:rotate(-45deg) translate(5px,-5px); }
+#main-nav.mobile-open{
+  display:flex !important;
+  flex-direction:column;
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  z-index:4000;
+  background:rgba(3,3,3,.97);
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+  backdrop-filter:blur(20px);
+}
+#main-nav.mobile-open a{
+  font-size:26px;
+  padding:14px 30px;
+}
+@media(max-width:900px){
+  #hamburger{ display:flex; }
+  #main-nav{ display:none; }
+  #main-nav.mobile-open{ display:flex; }
+}
+
+/* ══ FEATURED CARD ══ */
+.card-featured{
+  border-color:rgba(212,175,55,.5) !important;
+  background:linear-gradient(145deg,
+    rgba(255,215,0,.12) 0%,
+    rgba(255,255,255,.09) 50%,
+    rgba(212,175,55,.08) 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,215,0,.18) inset,
+    0 4px 40px rgba(0,0,0,.4),
+    0 0 80px rgba(212,175,55,.14) !important;
+}
+.card-featured::after{
+  background:linear-gradient(90deg,transparent,rgba(255,215,0,.8),transparent) !important;
+}
+.card-featured h3{
+  font-size:26px !important;
+  text-shadow:
+    0 0 20px rgba(212,175,55,.7),
+    0 0 50px rgba(212,175,55,.3) !important;
+}
+.card-featured .card-artist-bg{
+  opacity:.22 !important;
+}
+.featured-badge{
+  display:inline-block;
+  background:linear-gradient(135deg,#d4af37,#ffe082);
+  color:#000;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:2px;
+  padding:3px 10px;
+  border-radius:999px;
+  margin-bottom:10px;
+  font-family:'Cormorant Garamond',Georgia,serif;
+}
+.media-source-wrap{ width:100%; margin-top:12px; position:relative; z-index:1; }
+.media-source-wrap iframe{ width:100%; border:none; border-radius:14px; display:block; background:#000; }
+.media-source-wrap.yt-wrap iframe{ height:195px; }
+.media-source-wrap.suno-wrap iframe{ height:150px; }
+.yt-thumb{
+  width:100%; border-radius:14px; cursor:pointer;
+  position:relative; background:#000; overflow:hidden;
+}
+.yt-thumb img{ width:100%; height:175px; object-fit:cover; display:block; transition:.3s; }
+.yt-thumb:hover img{ opacity:.85; transform:scale(1.02); }
+.yt-play-overlay{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,.2);
+}
+.yt-play-overlay span{
+  width:52px; height:52px; border-radius:50%;
+  background:rgba(212,175,55,.9); display:flex; align-items:center; justify-content:center;
+  font-size:20px; color:#000; transition:.3s;
+  box-shadow:0 0 25px rgba(212,175,55,.5);
+}
+.yt-thumb:hover .yt-play-overlay span{ transform:scale(1.12); background:#d4af37; }
+.media-source-tabs{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+.media-tab-btn{
+  padding:5px 13px; border-radius:999px; border:1px solid rgba(212,175,55,.22);
+  background:transparent; color:rgba(212,175,55,.55); font-size:12px;
+  cursor:pointer; font-family:Georgia,serif; transition:.3s;
+}
+.media-tab-btn.active{ background:rgba(212,175,55,.14); color:#d4af37; border-color:rgba(212,175,55,.45); }
+.media-tab-btn:hover{ color:#d4af37; }
+
 /* ══ WAVEFORM ══ */
 .wf-row{ display:flex;align-items:center;gap:10px;margin-top:12px; }
 .wf-play-btn{
@@ -872,6 +1186,11 @@ footer{
 
   #video .grid{
     grid-template-columns:1fr;
+  }
+
+  /* Tablet — 2 columns for video */
+  @media(min-width:601px) and (max-width:900px){
+    #video .grid{ grid-template-columns:repeat(2,1fr); }
   }
 
   /* ══ КАРТОЧКИ — ЯРЧЕ, КРУПНЕЕ ══ */
@@ -1322,11 +1641,29 @@ footer{
   <a href="#silva" class="hero-btn hero-btn-primary">🎵 Слушать</a>
   <a href="#video" class="hero-btn hero-btn-secondary">▶ Смотреть</a>
   <a href="#authors" class="hero-btn hero-btn-secondary">✦ Авторы</a>
+  <a href="https://www.facebook.com/Vahan.Vardevanyan" target="_blank" rel="noopener" class="hero-btn hero-btn-secondary">Facebook</a>
 </div>
 </div>
 </header>
 
-<nav>
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>✦ Սիلвa Гулаnyаn</span><span>✦ Гo Нарa</span>
+    <span>✦ Imastun</span><span>✦ Лилилт Агасян</span>
+    <span>✦ Нарине Баласбекян</span><span>✦ Поезиа</span>
+    <span>✦ Еражштутыун</span><span>✦ Cinematic</span>
+    <span>✦ Сілва Гулаnyаn</span><span>✦ Гo Нарa</span>
+    <span>✦ Imastun</span><span>✦ Лилилт Агасян</span>
+    <span>✦ Нарине Баласбекян</span><span>✦ Поезиа</span>
+    <span>✦ Еражштутыун</span><span>✦ Cinematic</span>
+  </div>
+</div>
+
+<button id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<nav id="main-nav">
 <a href="#silva" data-key="navSilva">Սիլվա Գուլանյան</a>
 <a href="#gohara" data-key="navGohara">Գօ Հարա</a>
 <a href="#imastun" data-key="navImastun">Imastun</a>
@@ -1334,20 +1671,21 @@ footer{
 <a href="#video" data-key="navVideo">Վիդեո</a>
 <a href="#poetry" data-key="navPoetry">Պոեզիա</a>
 <a href="#contact" data-key="navContact">Կապ</a>
+
 </nav>
 
 <div class="search-wrap">
   <input class="search-box" id="searchBox" type="search" placeholder="🔍 Որонел erg kam heghianak…" autocomplete="off">
 </div>
 <div class="filter-wrap" id="filterWrap">
-  <button class="filter-btn active" data-filter="all">Բolory</button>
-  <button class="filter-btn" data-filter="silva">Silva Gulanyan</button>
-  <button class="filter-btn" data-filter="gohara">Go Hara</button>
-  <button class="filter-btn" data-filter="lilit">Lilit Aghasyan</button>
-  <button class="filter-btn" data-filter="narine">Narine Balasbekyan</button>
+  <button class="filter-btn active" data-filter="all">Բոlorerы</button>
+  <button class="filter-btn" data-filter="silva">Сілва Гулаnyаn</button>
+  <button class="filter-btn" data-filter="gohara">Гo Нарa</button>
+  <button class="filter-btn" data-filter="lilit">Лилилт Агасян</button>
+  <button class="filter-btn" data-filter="narine">Нарине Баласбекян</button>
   <button class="filter-btn" data-filter="imastun">Imastun</button>
 </div>
-<p class="search-empty" id="searchEmpty">Ворч мек арdrunk chi gtнвел</p>
+<p class="search-empty" id="searchEmpty">Ოچ мек ардyunk chi гtvел</p>
 
 <section id="silva" class="author-section" data-section="silva">
 <div class="author-header">
@@ -1361,12 +1699,12 @@ footer{
 <h2 data-key="silvaSongs">Սիլվայի երգերը</h2>
 <div class="grid">
 
-<div class="card" data-artist="silva" data-title="Ի՞նչ եմ անելու"><h3>Ի՞նչ եմ անելու</h3><p>Զգացմունքային և կինեմատոգրաֆիկ սիրային երգ։</p><audio controls><source src="audio/silva/featured/inch-em-anelu.mp3" type="audio/mpeg"></audio></div>
+<div class="card card-featured" data-artist="silva" data-title="Ի՞նչ եմ անելու"><h3>Ի՞նչ եմ անելու</h3><p>Զգացմունքային և կինեմատոգրաֆիկ սիրային երգ։</p><audio controls><source src="audio/silva/featured/inch-em-anelu.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="silva" data-title="Ծով արև աչքեր"><h3>Ծով արև աչքեր</h3><p>Ռոմանտիկ և լուսավոր տրամադրությամբ երգ։</p><audio controls><source src="audio/silva/featured/tsov-arev-achqer.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="silva" data-title="Գիժ քամին"><h3>Գիժ քամին</h3><p>Քամու, կարոտի և հոգու շարժման մասին երգ։</p><audio controls><source src="audio/silva/featured/im-tsovagur.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="silva" data-title="Գիժ քամին Trilingual Duet"><h3>Գիժ քամին Trilingual Duet</h3><p>Եռալեզու duet տարբերակ՝ լայն ու կինեմատոգրաֆիկ շնչով։</p><audio controls><source src="audio/silva/featured/gij.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="silva" data-title="Երգիչը դարի"><h3>Երգիչը դարի</h3><p>Ժամանակի ու երգի մասին զգացմունքային ստեղծագործություն։</p><audio controls><source src="audio/silva/featured/ergichy-dari.mp3" type="audio/mpeg"></audio></div>
-<div class="card" data-artist="silva" data-title="Գորշ տրիկ անկյուն"><h3>Գորշ տրիկ անկյուն</h3><p>Մռայլ ու խորը զգացմունքային տրամադրություն։</p><audio controls><source src="audio/silva/featured/gortrik-ankun.mp3" type="audio/mpeg"></audio></div>
+<div class="card" data-artist="silva" data-title="Գոլ տրիկ"><h3>Գոլ տրիկ</h3><p>Մռայլ ու խորը զգացմունքային տրամադրություն։</p><audio controls><source src="audio/silva/featured/gortrik-ankun.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="silva" data-title="Ոչ մեկ քեզ պես"><h3>Ոչ մեկ քեզ պես</h3><p>Սիրո և կարոտի մասին cinematic ստեղծագործություն։</p><audio controls><source src="audio/silva/featured/der-inz-voch-mek-chi-sirel-qo-pes.mp3" type="audio/mpeg"></audio></div>
 
 </div>
@@ -1390,12 +1728,12 @@ footer{
 <h2 data-key="goharaSongs">Գօ Հարայի երգերը</h2>
 <div class="grid">
 
-<div class="card" data-artist="gohara" data-title="Դառնահամ գինին"><h3>Դառնահամ գինին</h3><p>Մութ և կրքոտ ֆրանսիական մթնոլորտ։</p><audio controls><source src="audio/gohara/featured/darnaham-ginin.mp3" type="audio/mpeg"></audio></div>
+<div class="card card-featured" data-artist="gohara" data-title="Դառնահամ գինին"><h3>Դառնահամ գինին</h3><p>Մութ և կրքոտ ֆրանսիական մթնոլորտ։</p><audio controls><source src="audio/gohara/featured/darnaham-ginin.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="gohara" data-title="LA FRANÇAISE"><h3>LA FRANÇAISE</h3><p>Ֆրանսիական կինեմատոգրաֆիկ տրամադրությամբ երգ։</p><audio controls><source src="audio/gohara/featured/la-fracise.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="gohara" data-title="ФРАНЦУЖЕНКА"><h3>ФРАНЦУЖЕНКА</h3><p>Եվրոպական զգացմունքային atmosphere։</p><audio controls><source src="audio/gohara/featured/fracuzhenka.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="gohara" data-title="Գիշերային"><h3>Գիշերային</h3><p>Մութ գիշերային cinematic տրամադրություն։</p><audio controls><source src="audio/gohara/featured/gisherajin.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="gohara" data-title="Կանչիր կգամ"><h3>Կանչիր կգամ</h3><p>Զգացմունքային և սպասումով լի երգ։</p><audio controls><source src="audio/gohara/featured/kanchir-kgam.mp3" type="audio/mpeg"></audio></div>
-<div class="card" data-artist="gohara" data-title="Ցնծիր սերս"><h3>Ցնծիր սերս</h3><p>Ռոմանտիկ և մեղմ atmosphere ունեցող ստեղծագործություն։</p><audio controls><source src="audio/gohara/featured/cncir-users.mp3" type="audio/mpeg"></audio></div>
+<div class="card" data-artist="gohara" data-title="Ցնծիր ուսերս"><h3>Ցնծիր ուսերս</h3><p>Ռոմանտիկ և մեղմ atmosphere ունեցող ստեղծագործություն։</p><audio controls><source src="audio/gohara/featured/cncir-users.mp3" type="audio/mpeg"></audio></div>
 
 
 </div>
@@ -1405,7 +1743,7 @@ footer{
   <h2>Լիլիթ Աղասյանի երգերը</h2>
   <div class="grid">
 
-    <div class="card" data-artist="lilit" data-title="Դեղատոմս">
+    <div class="card card-featured" data-artist="lilit" data-title="Դեղատոմս">
       <h3>Դեղատոմս</h3>
       <p>Զգացմունքային և խորը սիրային ստեղծագործություն։</p>
       <audio controls>
@@ -1444,7 +1782,7 @@ footer{
   <h2>Նարինե Բալասբեկյանի երգերը</h2>
   <div class="grid">
 
-    <div class="card" data-artist="narine" data-title="Կինը">
+    <div class="card card-featured" data-artist="narine" data-title="Կինը">
       <h3>Կինը</h3>
       <p>Կնոջ ներաշխարհի մասին cinematic երգ։</p>
       <audio controls>
@@ -1480,7 +1818,7 @@ footer{
 <h2 data-key="imastunFeatured">Imastun Featured</h2>
 <div class="grid">
 
-<div class="card" data-artist="imastun" data-title="Լուռ հեռախոս"><h3>Լուռ հեռախոս</h3><audio controls><source src="audio/imastun/featured/lur-heraxos.mp3" type="audio/mpeg"></audio></div>
+<div class="card card-featured" data-artist="imastun" data-title="Լուռ հեռախոս"><h3>Լուռ հեռախոս</h3><audio controls><source src="audio/imastun/featured/lur-heraxos.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="imastun" data-title="Քո ջինջ հոգին"><h3>Քո ջինջ հոգին</h3><audio controls><source src="audio/imastun/featured/qo-jinj-hogin.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="imastun" data-title="Սեր անուրջի"><h3>Սեր անուրջի</h3><audio controls><source src="audio/imastun/featured/ser-anurji.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="imastun" data-title="Շեպոտ"><h3>Շեպոտ</h3><audio controls><source src="audio/imastun/featured/shepot.mp3" type="audio/mpeg"></audio></div>
@@ -1730,6 +2068,26 @@ footer{
 </section>
 
 
+<!-- SLEEP TIMER -->
+<button id="sleep-timer-btn" onclick="toggleSleepMenu()">😴 Sleep</button>
+<div id="sleep-menu">
+  <button onclick="setSleepTimer(15)">15 минут</button>
+  <button onclick="setSleepTimer(30)">30 минут</button>
+  <button onclick="setSleepTimer(60)">60 минут</button>
+  <button onclick="setSleepTimer(0)">Отключить</button>
+</div>
+<span id="sleep-countdown"></span>
+
+<!-- HISTORY BUTTON -->
+<button id="history-btn" onclick="toggleHistory()" title="История">🕐</button>
+<div id="history-panel">
+  <h4>🕐 ИСТОРИЯ</h4>
+  <div id="history-list"></div>
+</div>
+
+<!-- EQUALIZER CANVAS -->
+<canvas id="eq-canvas"></canvas>
+
 <canvas id="particles-canvas"></canvas>
 <div class="share-toast" id="shareToast">🔗 Հղումը պատճենված է</div>
 <div id="lightbox" onclick="closeLightbox()">
@@ -1749,6 +2107,7 @@ footer{
     <button id="playlist-toggle-btn">▲</button>
   </div>
   <div class="pl-controls">
+    <button class="pl-mode-btn on" id="crossfadeBtn" onclick="toggleCrossfade()" title="Crossfade: ON">⇌</button>
     <button class="pl-mode-btn" id="shuffleBtn" onclick="toggleShuffle()">⇄</button>
     <button id="pl-prev" onclick="plPrev()">&#9664;</button>
     <div class="pl-progress" id="plProgress" onclick="plSeek(event)">
@@ -1757,6 +2116,7 @@ footer{
     <span class="pl-time" id="plTime">0:00 / 0:00</span>
     <button id="pl-next" onclick="plNext()">&#9654;</button>
     <button class="pl-mode-btn" id="repeatBtn" onclick="toggleRepeat()">↻</button>
+    <button class="pl-mode-btn" id="speedBtn" onclick="toggleSpeed()" title="Скорость">1×</button>
     <span class="vol-icon" onclick="toggleMute()">🔊</span>
     <input type="range" id="pl-volume" min="0" max="1" step="0.02" value="1" oninput="setVolume(this.value)">
   </div>
@@ -1901,6 +2261,232 @@ if(t[lang][key]) el.innerHTML=t[lang][key];
 }
 
 /* ═══════════════════════════════════
+   SLEEP TIMER
+═══════════════════════════════════ */
+let sleepTimer=null;
+let sleepEnd=0;
+let sleepInterval=null;
+
+function toggleSleepMenu(){
+  document.getElementById('sleep-menu').classList.toggle('open');
+}
+function setSleepTimer(minutes){
+  document.getElementById('sleep-menu').classList.remove('open');
+  clearTimeout(sleepTimer);
+  clearInterval(sleepInterval);
+  const btn=document.getElementById('sleep-timer-btn');
+  const cd=document.getElementById('sleep-countdown');
+  if(minutes===0){
+    btn.classList.remove('active');
+    btn.textContent='😴 Sleep';
+    cd.textContent='';
+    return;
+  }
+  sleepEnd=Date.now()+minutes*60*1000;
+  btn.classList.add('active');
+  sleepTimer=setTimeout(()=>{
+    plAudio.pause();
+    btn.classList.remove('active');
+    btn.textContent='😴 Sleep';
+    cd.textContent='';
+    clearInterval(sleepInterval);
+  }, minutes*60*1000);
+  sleepInterval=setInterval(()=>{
+    const left=Math.max(0,sleepEnd-Date.now());
+    const m=Math.floor(left/60000);
+    const s=Math.floor((left%60000)/1000).toString().padStart(2,'0');
+    cd.textContent=m+':'+s;
+    btn.textContent=`😴 ${m}:${s}`;
+    if(left<=0) clearInterval(sleepInterval);
+  },1000);
+}
+// Show sleep timer button when playlist is open
+document.addEventListener('DOMContentLoaded',()=>{
+  const obs=new MutationObserver(()=>{
+    const open=document.getElementById('playlist-bar')?.classList.contains('open');
+    document.getElementById('sleep-timer-btn')?.classList.toggle('visible',!!open);
+  });
+  const pb=document.getElementById('playlist-bar');
+  if(pb) obs.observe(pb,{attributes:true});
+});
+
+/* ═══════════════════════════════════
+   EQUALIZER VISUALIZER
+═══════════════════════════════════ */
+let eqCtx=null, eqAudioCtx=null, eqAnalyser=null, eqSource=null, eqAnimating=false;
+
+function initEqualizer(){
+  const canvas=document.getElementById('eq-canvas');
+  if(!canvas) return;
+  eqCtx=canvas.getContext('2d');
+  function resize(){ canvas.width=window.innerWidth; canvas.height=60; }
+  resize();
+  window.addEventListener('resize',resize);
+}
+
+function connectEqualizer(audioEl){
+  if(!eqCtx) return;
+  try{
+    if(!eqAudioCtx) eqAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    if(eqSource) eqSource.disconnect();
+    eqSource=eqAudioCtx.createMediaElementSource(audioEl);
+    eqAnalyser=eqAudioCtx.createAnalyser();
+    eqAnalyser.fftSize=128;
+    eqSource.connect(eqAnalyser);
+    eqAnalyser.connect(eqAudioCtx.destination);
+    if(!eqAnimating){ eqAnimating=true; drawEQ(); }
+    document.getElementById('eq-canvas').classList.add('active');
+  }catch(e){ console.log('EQ init error:',e); }
+}
+
+function drawEQ(){
+  if(!eqAnalyser||!eqCtx){ eqAnimating=false; return; }
+  requestAnimationFrame(drawEQ);
+  const canvas=document.getElementById('eq-canvas');
+  const W=canvas.width, H=canvas.height;
+  const bufLen=eqAnalyser.frequencyBinCount;
+  const data=new Uint8Array(bufLen);
+  eqAnalyser.getByteFrequencyData(data);
+  eqCtx.clearRect(0,0,W,H);
+  const barW=W/bufLen*1.5;
+  let x=0;
+  for(let i=0;i<bufLen;i++){
+    const h=(data[i]/255)*H;
+    const alpha=0.4+((data[i]/255)*0.5);
+    const grad=eqCtx.createLinearGradient(0,H-h,0,H);
+    grad.addColorStop(0,'rgba(255,215,0,'+alpha+')');
+    grad.addColorStop(1,'rgba(212,140,0,0.1)');
+    eqCtx.fillStyle=grad;
+    eqCtx.beginPath();
+    eqCtx.roundRect(x,H-h,barW-1,h,2);
+    eqCtx.fill();
+    x+=barW+1;
+  }
+}
+
+/* ═══════════════════════════════════
+   LISTENING HISTORY (persistent)
+═══════════════════════════════════ */
+let listenHistory=[];
+
+function loadHistory(){
+  try{ listenHistory=JSON.parse(localStorage.getItem('im_history')||'[]'); }catch(e){ listenHistory=[]; }
+}
+function saveHistory(){ try{ localStorage.setItem('im_history',JSON.stringify(listenHistory.slice(0,50))); }catch(e){} }
+
+function recordListen(title,artist){
+  const existing=listenHistory.find(h=>h.title===title);
+  if(existing){ existing.count++; existing.last=Date.now(); }
+  else{ listenHistory.unshift({title,artist,count:1,last:Date.now()}); }
+  listenHistory.sort((a,b)=>b.last-a.last);
+  saveHistory();
+  renderHistory();
+}
+
+function renderHistory(){
+  const list=document.getElementById('history-list');
+  if(!list) return;
+  if(!listenHistory.length){ list.innerHTML='<div style="color:#5a5040;font-size:13px;padding:8px 0;">Пока пусто</div>'; return; }
+  list.innerHTML=listenHistory.slice(0,20).map((h,i)=>`
+    <div class="history-item" onclick="playByTitle('${h.title.replace(/'/g,"\\'")}')">
+      <span class="hi-num">${i+1}</span>
+      <span class="hi-title">${h.title}</span>
+      <span class="hi-count">▶${h.count}</span>
+    </div>
+  `).join('');
+}
+
+function toggleHistory(){
+  const panel=document.getElementById('history-panel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open')) renderHistory();
+}
+
+/* ═══════════════════════════════════
+   3D HOVER on author cards
+═══════════════════════════════════ */
+function init3DHover(){
+  document.querySelectorAll('.author-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const rect=card.getBoundingClientRect();
+      const cx=rect.left+rect.width/2;
+      const cy=rect.top+rect.height/2;
+      const dx=(e.clientX-cx)/(rect.width/2);
+      const dy=(e.clientY-cy)/(rect.height/2);
+      card.style.transform=`rotateY(${dx*6}deg) rotateX(${-dy*3}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transform='';
+    });
+  });
+}
+
+/* ═══════════════════════════════════
+   PWA SERVICE WORKER
+═══════════════════════════════════ */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+/* ═══════════════════════════════════
+   HAMBURGER MENU
+═══════════════════════════════════ */
+function toggleMobileNav(){
+  const nav=document.getElementById('main-nav');
+  const btn=document.getElementById('hamburger');
+  nav.classList.toggle('mobile-open');
+  btn.classList.toggle('open');
+  document.body.style.overflow=nav.classList.contains('mobile-open')?'hidden':'';
+}
+// Close nav when link clicked
+document.addEventListener('click',e=>{
+  if(e.target.matches('#main-nav a')){
+    document.getElementById('main-nav').classList.remove('mobile-open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow='';
+  }
+});
+
+/* ═══════════════════════════════════
+   FEATURED BADGE on first card
+═══════════════════════════════════ */
+function initFeaturedBadges(){
+  document.querySelectorAll('.card-featured').forEach(card=>{
+    const badge=document.createElement('span');
+    badge.className='featured-badge';
+    badge.textContent='★ FEATURED';
+    const h3=card.querySelector('h3');
+    if(h3) h3.before(badge);
+  });
+}
+
+/* ═══════════════════════════════════
+   CARD ARTIST BACKGROUND IMAGES
+═══════════════════════════════════ */
+function initCardBgImages(){
+  const artistImgMap = {
+    silva:   'authors/silva-gulanyan/cover.jpg',
+    gohara:  'authors/go-hara/cover.jpg',
+    lilit:   'authors/lilit-aghasyan/cover.jpg',
+    narine:  'authors/narine-balasbekyan/cover.jpg',
+    imastun: 'authors/imastun/cover.jpg',
+  };
+
+  document.querySelectorAll('.card[data-artist]').forEach(card=>{
+    const artist = card.dataset.artist;
+    const img = artistImgMap[artist];
+    if(!img) return;
+
+    const bg = document.createElement('div');
+    bg.className = 'card-artist-bg';
+    bg.style.backgroundImage = `url('${img}')`;
+    card.insertBefore(bg, card.firstChild);
+  });
+}
+
+/* ═══════════════════════════════════
    1. CUSTOM CURSOR
 ═══════════════════════════════════ */
 (function(){
@@ -1956,11 +2542,11 @@ function toggleTheme(){
 const songMeta={
   'Ի՞нch еm аnеlу':{ plays:2840, year:2023, similar:['Ծov аrев аchqеr','Гиж qаmин'] },
   'Ծov аrев аchqеr':{ plays:1920, year:2023, similar:['Ի՞нch еm аnеlу','Еrgichы дарi'] },
-  'Гиж qаmин':{ plays:3150, year:2022, similar:['Ծov аrев аchqеr','Горш трик анкун'] },
+  'Гиж qаmин':{ plays:3150, year:2022, similar:['Ծov аrев аchqеr','Гол трик'] },
   'Гиж qаmин Trilingual Duet':{ plays:2100, year:2023, similar:['Гиж qаmин'] },
   'Еrgichы дарi':{ plays:1680, year:2022, similar:['Ծov аrев аchqеr'] },
-  'Горш трик анкун':{ plays:1450, year:2023, similar:['Гиж qаmин','Ворч мек кез пес'] },
-  'Ворч мек кез пес':{ plays:2200, year:2024, similar:['Горш трик анкун','Еrgichы дарi'] },
+  'Гол трик':{ plays:1450, year:2023, similar:['Гиж qаmин','Ворч мек кез пес'] },
+  'Ворч мек кез пес':{ plays:2200, year:2024, similar:['Гол трик','Еrgichы дарi'] },
   'Дарнахам гинин':{ plays:3800, year:2022, similar:['Гишерайин','Канчир кгам'] },
   'LA FRANÇAISE':{ plays:2950, year:2023, similar:['ФРАНЦУЖЕНКА','Дарнахам гинин'] },
   'ФРАНЦУЖЕНКА':{ plays:2100, year:2023, similar:['LA FRANÇAISE'] },
@@ -2015,7 +2601,97 @@ function initEnhancements(){
     const title=card.dataset.title||'';
     const meta=songMeta[title]||{plays:Math.floor(Math.random()*3000+500), year:2022, similar:[]};
 
-    // 3. Waveform — replace default audio player
+    // ── SMART MEDIA EMBED ──
+    // Detect YouTube / Suno data attributes and build embed
+    const ytRaw=card.dataset.youtube||'';
+    const sunoRaw=card.dataset.suno||'';
+
+    function ytEmbedUrl(url){
+      const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+      return m?`https://www.youtube.com/embed/${m[1]}?rel=0&modestbranding=1`:null;
+    }
+    function ytThumb(url){
+      const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+      return m?`https://img.youtube.com/vi/${m[1]}/mqdefault.jpg`:null;
+    }
+    function sunoEmbedUrl(url){
+      const m=url.match(/suno\.com\/song\/([a-z0-9-]+)/i);
+      return m?`https://suno.com/embed/${m[1]}`:null;
+    }
+
+    const ytEmbed=ytRaw?ytEmbedUrl(ytRaw):null;
+    const ytImg=ytRaw?ytThumb(ytRaw):null;
+    const sunoEmbed=sunoRaw?sunoEmbedUrl(sunoRaw):null;
+    const hasLocal=!!audio;
+    const hasExternal=!!(ytEmbed||sunoEmbed);
+
+    if(hasExternal){
+      // Build tab buttons if multiple sources
+      const sources=[];
+      if(hasLocal) sources.push({label:'🎵 MP3', type:'local'});
+      if(ytEmbed)  sources.push({label:'▶ YouTube', type:'youtube', url:ytEmbed, thumb:ytImg});
+      if(sunoEmbed) sources.push({label:'🎵 Suno', type:'suno', url:sunoEmbed});
+
+      const mediaWrap=document.createElement('div');
+      mediaWrap.className='media-source-wrap';
+
+      function showSource(src){
+        mediaWrap.innerHTML='';
+        if(src.type==='local'){
+          if(audio){ audio.style.display=''; mediaWrap.appendChild(audio); }
+        } else if(src.type==='youtube'){
+          // Show thumbnail first, load iframe on click
+          const thumb=document.createElement('div');
+          thumb.className='yt-thumb';
+          thumb.innerHTML=`<img src="${src.thumb||''}" alt="YouTube" loading="lazy"><div class="yt-play-overlay"><span>▶</span></div>`;
+          thumb.onclick=()=>{
+            const iframe=document.createElement('iframe');
+            iframe.src=src.url+'&autoplay=1';
+            iframe.allow='autoplay; encrypted-media; fullscreen';
+            iframe.allowFullscreen=true;
+            mediaWrap.className='media-source-wrap yt-wrap';
+            mediaWrap.innerHTML='';
+            mediaWrap.appendChild(iframe);
+            if(tabRow) mediaWrap.appendChild(tabRow);
+          };
+          mediaWrap.className='media-source-wrap';
+          mediaWrap.appendChild(thumb);
+        } else if(src.type==='suno'){
+          const iframe=document.createElement('iframe');
+          iframe.src=src.url;
+          iframe.allow='autoplay';
+          mediaWrap.className='media-source-wrap suno-wrap';
+          mediaWrap.appendChild(iframe);
+        }
+        // Re-append tabs
+        if(tabRow) mediaWrap.appendChild(tabRow);
+      }
+
+      // Tab row (only if multiple sources)
+      let tabRow=null;
+      if(sources.length>1){
+        tabRow=document.createElement('div');
+        tabRow.className='media-source-tabs';
+        sources.forEach((src,i)=>{
+          const btn=document.createElement('button');
+          btn.className='media-tab-btn'+(i===0?' active':'');
+          btn.textContent=src.label;
+          btn.onclick=()=>{
+            tabRow.querySelectorAll('.media-tab-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            showSource(src);
+          };
+          tabRow.appendChild(btn);
+        });
+      }
+
+      // Hide local audio if external sources exist and no tabs
+      if(audio && sources.length===1) audio.style.display='none';
+
+      // Show first source by default (YouTube thumbnail / Suno / local)
+      showSource(sources[0]);
+      card.appendChild(mediaWrap);
+    }
     if(audio){
       audio.style.display='none';
       const wfRow=document.createElement('div');
@@ -2123,13 +2799,18 @@ function fmt(s){
 ═══════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function(){
   setLang('hy');
+  loadHistory();
   initSearch();
   initFilter();
+  initCardBgImages();
+  initFeaturedBadges();
+  initEnhancements();
   initPlaylist();
   initLazyReveal();
   initParticles();
   initLightbox();
-  initEnhancements();
+  initEqualizer();
+  init3DHover();
 
   // Preloader
   const pre=document.getElementById('preloader');
@@ -2230,8 +2911,8 @@ document.addEventListener('play', e=>{
    ARTIST PANEL
 ═══════════════════════════════════ */
 const artistData={
-  silva:{name:'Սիլվա Գուլանյան',img:'authors/silva-gulanyan/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],songs:[{t:'Ի՞նչ եմ անելու',s:'audio/silva/featured/inch-em-anelu.mp3'},{t:'Ծով արև աչքեր',s:'audio/silva/featured/tsov-arev-achqer.mp3'},{t:'Գիժ քամին',s:'audio/silva/featured/im-tsovagur.mp3'},{t:'Գիժ քամին Trilingual Duet',s:'audio/silva/featured/gij.mp3'},{t:'Երգիչը դարի',s:'audio/silva/featured/ergichy-dari.mp3'},{t:'Գորշ տրիկ անկյուն',s:'audio/silva/featured/gortrik-ankun.mp3'},{t:'Ոչ մեկ քեզ պես',s:'audio/silva/featured/der-inz-voch-mek-chi-sirel-qo-pes.mp3'}]},
-  gohara:{name:'Գո Հարա',img:'authors/go-hara/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],songs:[{t:'Դառնահամ գինին',s:'audio/gohara/featured/darnaham-ginin.mp3'},{t:'LA FRANÇAISE',s:'audio/gohara/featured/la-fracise.mp3'},{t:'ФРАНЦУЖЕНКА',s:'audio/gohara/featured/fracuzhenka.mp3'},{t:'Գիշերային',s:'audio/gohara/featured/gisherajin.mp3'},{t:'Կանչիր կգամ',s:'audio/gohara/featured/kanchir-kgam.mp3'},{t:'Ցնծիր սերս',s:'audio/gohara/featured/cncir-users.mp3'}]},
+  silva:{name:'Սիլվա Գուլանյան',img:'authors/silva-gulanyan/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],songs:[{t:'Ի՞նչ եմ անելու',s:'audio/silva/featured/inch-em-anelu.mp3'},{t:'Ծով արև աչքեր',s:'audio/silva/featured/tsov-arev-achqer.mp3'},{t:'Գիժ քամին',s:'audio/silva/featured/im-tsovagur.mp3'},{t:'Գիժ քամին Trilingual Duet',s:'audio/silva/featured/gij.mp3'},{t:'Երգիչը դարի',s:'audio/silva/featured/ergichy-dari.mp3'},{t:'Գոլ տրիկ',s:'audio/silva/featured/gortrik-ankun.mp3'},{t:'Ոչ մեկ քեզ պես',s:'audio/silva/featured/der-inz-voch-mek-chi-sirel-qo-pes.mp3'}]},
+  gohara:{name:'Գո Հարա',img:'authors/go-hara/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],songs:[{t:'Դառնահամ գինին',s:'audio/gohara/featured/darnaham-ginin.mp3'},{t:'LA FRANÇAISE',s:'audio/gohara/featured/la-fracise.mp3'},{t:'ФРАНЦУЖЕНКА',s:'audio/gohara/featured/fracuzhenka.mp3'},{t:'Գիշերային',s:'audio/gohara/featured/gisherajin.mp3'},{t:'Կանչիր կգամ',s:'audio/gohara/featured/kanchir-kgam.mp3'},{t:'Ցնծիր ուսերս',s:'audio/gohara/featured/cncir-users.mp3'}]},
   lilit:{name:'Լիլիթ Աղասյան',img:'authors/lilit-aghasyan/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Telegram',u:'https://t.me/'}],songs:[{t:'Դեղատոմս',s:'audio/lilit-aghasyan/deratoms.mp3'},{t:'Դղյակ',s:'audio/lilit-aghasyan/driak.mp3'},{t:'Երանի զգաս',s:'audio/lilit-aghasyan/erani-zgas.mp3'},{t:'Սա է քո սերը',s:'audio/lilit-aghasyan/sae-qosery.mp3'}]},
   narine:{name:'Նարինե Բալասբեկյան',img:'authors/narine-balasbekyan/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Telegram',u:'https://t.me/'}],songs:[{t:'Կինը',s:'audio/narine-balasbekyan/kiny.mp3'},{t:'Սիրենք հիմա',s:'audio/narine-balasbekyan/sirenq-hima.mp3'}]},
   imastun:{name:'Imastun',img:'authors/imastun/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Suno',u:'https://suno.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],songs:[{t:'Լուռ հեռախոս',s:'audio/imastun/featured/lur-heraxos.mp3'},{t:'Քո ջինջ հոգին',s:'audio/imastun/featured/qo-jinj-hogin.mp3'},{t:'Սեր անուրջի',s:'audio/imastun/featured/ser-anurji.mp3'},{t:'Շեպոտ',s:'audio/imastun/featured/shepot.mp3'},{t:'Շշնջաց',s:'audio/imastun/featured/shshnjatc.mp3'},{t:'Շշնջաց նորից',s:'audio/imastun/featured/shshnjatc-noric.mp3'},{t:'Սիրո կենացը',s:'audio/imastun/featured/siro-kenacy.mp3'},{t:'Հոգու արձագանք',s:'audio/imastun/featured/hogu-arzaganq.mp3'},{t:'Ինչի համար',s:'audio/imastun/featured/inchi-hamar.mp3'},{t:'Հավերժի երթը',s:'audio/imastun/featured/haverji-erty.mp3'},{t:'🎵 Suno',s:null,suno:'https://suno.com/@imastun'}]}
@@ -2273,11 +2954,79 @@ function closeArtistPanel(){
 ═══════════════════════════════════ */
 let playlist=[],plIndex=-1,plShuffle=false,plRepeatState=0,plExpanded=false,recentPlayed=[];
 let plAudio=new Audio();
+let plAudio2=new Audio(); // second audio for crossfade
+let plCrossfade=true;     // crossfade on by default
+const CROSSFADE_SEC=3;    // 3 seconds crossfade
+let plCrossfading=false;
+let plCrossfadeTimer=null;
+
+function startCrossfade(nextIndex){
+  if(plCrossfading) return;
+  if(!plCrossfade || playlist.length<2){
+    plPlay(nextIndex);
+    return;
+  }
+  plCrossfading=true;
+
+  // Prepare next track on second audio
+  plAudio2.src=playlist[nextIndex].src;
+  plAudio2.volume=0;
+  plAudio2.play().catch(()=>{});
+
+  // Update UI for next track
+  plIndex=nextIndex;
+  document.getElementById('now-playing-title').textContent=playlist[nextIndex].title;
+  renderPL();
+  setPC(nextIndex);
+
+  const duration=CROSSFADE_SEC*1000;
+  const steps=60;
+  const interval=duration/steps;
+  let step=0;
+
+  const fade=setInterval(()=>{
+    step++;
+    const ratio=step/steps;
+    plAudio.volume=Math.max(0, 1-ratio);
+    plAudio2.volume=Math.min(1, ratio);
+
+    if(step>=steps){
+      clearInterval(fade);
+      plAudio.pause();
+      plAudio.src='';
+      // Swap: audio2 becomes main audio
+      const tmp=plAudio;
+      plAudio=plAudio2;
+      plAudio2=tmp;
+      plAudio2.pause();
+      plAudio2.src='';
+      plAudio.volume=1;
+      plCrossfading=false;
+      // Re-attach listeners
+      plAudio.addEventListener('timeupdate',updateProgress);
+      plAudio.addEventListener('ended',onPlEnded);
+    }
+  }, interval);
+}
+
+function onPlEnded(){
+  addToRecent(plIndex);
+  if(plRepeatState===2){ plAudio.currentTime=0; plAudio.play(); return; }
+  const next=plShuffle
+    ? (()=>{ let n=Math.floor(Math.random()*playlist.length); if(playlist.length>1) while(n===plIndex) n=Math.floor(Math.random()*playlist.length); return n; })()
+    : (plIndex+1)%playlist.length;
+  if(!plRepeatState && plIndex===playlist.length-1){ setPC(null); return; }
+  plPlay(next);
+}
 
 function initPlaylist(){
   document.querySelectorAll('.card[data-artist]').forEach(card=>{
-    const src=card.querySelector('audio source')?.src;
+    // Find audio source — could be direct child or inside media wrap
+    let src = card.querySelector('audio source')?.src;
+    // Also check data-src attribute set by smart embed
+    if(!src) src = card.dataset.mp3||'';
     if(!src) return;
+
     // Now playing badge
     const badge=document.createElement('div');
     badge.className='now-playing-badge';
@@ -2306,10 +3055,21 @@ function initPlaylist(){
     card.appendChild(btn);
   });
   plAudio.addEventListener('timeupdate',updateProgress);
-  plAudio.addEventListener('ended',()=>{
-    addToRecent(plIndex);
-    if(plRepeatState===2){plAudio.currentTime=0;plAudio.play();return;}
-    plNext();
+  plAudio.addEventListener('ended', onPlEnded);
+
+  // Crossfade — trigger when approaching end of song
+  plAudio.addEventListener('timeupdate',()=>{
+    if(!plCrossfade || plCrossfading || !plAudio.duration) return;
+    if(playlist.length<2) return;
+    const remaining=plAudio.duration - plAudio.currentTime;
+    if(remaining<=CROSSFADE_SEC && remaining>0){
+      const next=plShuffle
+        ? (()=>{ let n=Math.floor(Math.random()*playlist.length); if(playlist.length>1) while(n===plIndex) n=Math.floor(Math.random()*playlist.length); return n; })()
+        : (plIndex+1)%playlist.length;
+      if(plRepeatState===2) return; // repeat one — no crossfade needed
+      if(!plRepeatState && plIndex===playlist.length-1) return;
+      startCrossfade(next);
+    }
   });
 }
 
@@ -2326,14 +3086,69 @@ function addToPlaylist(card,btn,src){
   const title=card.dataset.title||'Yerg';
   const artist=card.dataset.artist||'';
   const idx=playlist.findIndex(p=>p.src===src);
-  if(idx!==-1){playlist.splice(idx,1);btn.classList.remove('added');btn.textContent='+ Playlist';card.classList.remove('in-playlist');if(plIndex>=idx)plIndex=Math.max(-1,plIndex-1);renderPL();if(playlist.length===0){document.getElementById('playlist-bar').classList.remove('open');plAudio.pause();plIndex=-1;setPC(null);}return;}
-  playlist.push({src,title,artist,card,btn});btn.classList.add('added');btn.textContent='✓ Playlist';card.classList.add('in-playlist');
-  document.getElementById('playlist-bar').classList.add('open');renderPL();if(plIndex===-1){plIndex=playlist.length-1;plPlay(plIndex);}
+  if(idx!==-1){
+    playlist.splice(idx,1);
+    btn.classList.remove('added'); btn.textContent='+ Playlist';
+    card.classList.remove('in-playlist');
+    if(plIndex>=idx) plIndex=Math.max(-1,plIndex-1);
+    renderPL();
+    if(playlist.length===0){
+      document.getElementById('playlist-bar').classList.remove('open');
+      plAudio.pause(); plIndex=-1; setPC(null);
+    }
+    return;
+  }
+  playlist.push({src,title,artist,card,btn});
+  btn.classList.add('added'); btn.textContent='✓ Playlist';
+  card.classList.add('in-playlist');
+  document.getElementById('playlist-bar').classList.add('open');
+  renderPL();
+  if(plIndex===-1){ plIndex=playlist.length-1; plPlay(plIndex); }
 }
 function renderPL(){const list=document.getElementById('playlist-list');list.innerHTML='';playlist.forEach((item,i)=>{const div=document.createElement('div');div.className='pl-item'+(i===plIndex?' active-track':'');div.innerHTML=`<span class="pl-num">${i+1}</span><span>${item.title}</span><span class="pl-artist">${item.artist}</span>`;div.onclick=()=>plPlay(i);list.appendChild(div);});}
 function setPC(i){document.querySelectorAll('.card.is-playing').forEach(c=>c.classList.remove('is-playing'));if(i!==null&&i>=0&&i<playlist.length)playlist[i].card.classList.add('is-playing');}
-function plPlay(i){if(i<0||i>=playlist.length)return;plIndex=i;plAudio.src=playlist[i].src;plAudio.play();document.getElementById('now-playing-title').textContent=playlist[i].title;renderPL();setPC(i);}
-function plNext(){if(!playlist.length)return;addToRecent(plIndex);if(plShuffle){let n=Math.floor(Math.random()*playlist.length);if(playlist.length>1)while(n===plIndex)n=Math.floor(Math.random()*playlist.length);plPlay(n);}else{plPlay((plIndex+1)%playlist.length);}}
+function plPlay(i){
+  if(i<0||i>=playlist.length)return;
+  plCrossfading=false;
+  plAudio2.pause(); plAudio2.src='';
+  plIndex=i;
+  plAudio.src=playlist[i].src;
+  plAudio.volume=1;
+  plAudio.play();
+  document.getElementById('now-playing-title').textContent=playlist[i].title;
+  renderPL(); setPC(i);
+  // Connect equalizer
+  try{ connectEqualizer(plAudio); }catch(e){}
+  // Record in history
+  recordListen(playlist[i].title, playlist[i].artist);
+}
+function plNext(){
+  if(!playlist.length)return;
+  addToRecent(plIndex);
+  const next=plShuffle
+    ?(()=>{let n=Math.floor(Math.random()*playlist.length);if(playlist.length>1)while(n===plIndex)n=Math.floor(Math.random()*playlist.length);return n;})()
+    :(plIndex+1)%playlist.length;
+  plPlay(next);
+}
+function toggleCrossfade(){
+  plCrossfade=!plCrossfade;
+  const btn=document.getElementById('crossfadeBtn');
+  if(btn){ btn.classList.toggle('on',plCrossfade); btn.title=plCrossfade?'Crossfade: ON':'Crossfade: OFF'; }
+}
+
+const speedSteps=[0.75, 1, 1.25, 1.5, 2];
+let speedIdx=1; // default 1×
+function toggleSpeed(){
+  speedIdx=(speedIdx+1)%speedSteps.length;
+  const speed=speedSteps[speedIdx];
+  plAudio.playbackRate=speed;
+  plAudio2.playbackRate=speed;
+  const btn=document.getElementById('speedBtn');
+  if(btn){
+    btn.textContent=speed===1?'1×':speed+'×';
+    btn.classList.toggle('on', speed!==1);
+  }
+}
 function plPrev(){if(!playlist.length)return;if(plAudio.currentTime>3){plAudio.currentTime=0;return;}plPlay((plIndex-1+playlist.length)%playlist.length);}
 function togglePlaylistExpand(){plExpanded=!plExpanded;document.getElementById('playlist-list').classList.toggle('expanded',plExpanded);document.getElementById('playlist-toggle-btn').textContent=plExpanded?'▼':'▲';}
 function toggleShuffle(){plShuffle=!plShuffle;document.getElementById('shuffleBtn').classList.toggle('on',plShuffle);}
