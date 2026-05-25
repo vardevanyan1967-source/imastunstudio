@@ -291,15 +291,15 @@ h2{
   flex-direction:column;
   align-items:center;
   background:
-    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));
+    linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.07));
   padding:24px;
   border-radius:28px;
   overflow:hidden;
   backdrop-filter:blur(10px);
-  border:1px solid rgba(255,215,0,.08);
+  border:1px solid rgba(255,215,0,.22);
   box-shadow:
-    0 0 25px rgba(0,0,0,.45),
-    0 0 60px rgba(0,0,0,.2);
+    0 0 15px rgba(0,0,0,.3),
+    0 0 35px rgba(0,0,0,.15);
   transition:all .45s ease;
 }
 
@@ -704,9 +704,9 @@ footer{
 .author-card.coming-soon{opacity:.75;cursor:default;}
 .author-card.coming-soon:hover{transform:none;box-shadow:0 0 30px rgba(0,0,0,.5);border-color:rgba(212,175,55,.2);}
 .author-cover{position:absolute;inset:0;}
-.author-cover img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:.6s;filter:brightness(1.1);}
+.author-cover img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:.6s;filter:brightness(1.25) contrast(1.05);}
 .author-card:hover .author-cover img{transform:scale(1.04);}
-.author-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.3) 45%,rgba(0,0,0,.82) 100%);}
+.author-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.15) 40%,rgba(0,0,0,.72) 100%);}
 .author-content{position:absolute;right:0;top:50%;transform:translateY(-50%);padding:0 32px;z-index:2;display:flex;align-items:center;gap:14px;width:55%;justify-content:flex-end;}
 .author-name{font-size:22px;color:#ffd86b;text-shadow:0 0 20px rgba(212,175,55,.5);font-family:Georgia,serif;letter-spacing:.5px;}
 .author-status{display:inline-block;padding:5px 13px;border-radius:999px;background:linear-gradient(135deg,#d4af37,#ffe082);color:#000;font-size:11px;font-weight:bold;letter-spacing:1px;white-space:nowrap;}
@@ -805,11 +805,33 @@ footer{
 
 /* ══ MOBILE ══ */
 @media(max-width:900px){
-  .author-card{height:200px;}
-  .author-content{width:65%;padding:0 18px;gap:10px;}
-  .author-name{font-size:17px;}
+  /* Author cards — full width, taller, image fills */
+  .authors-grid{padding:10px;}
+  .author-card{
+    height:220px;
+    border-radius:16px;
+  }
+  .author-cover img{
+    filter:brightness(1.3) contrast(1.05);
+    object-position:center 20%;
+  }
+  .author-cover::after{
+    background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.2) 40%,rgba(0,0,0,.72) 100%);
+  }
+  .author-content{width:58%;padding:0 16px;gap:8px;}
+  .author-name{font-size:16px;}
+  .author-status{font-size:10px;padding:4px 10px;}
+
+  /* Artist panel songs — 1 column */
   #artist-panel-songs{grid-template-columns:1fr;}
   .pl-controls{flex-wrap:wrap;gap:8px;}
+
+  /* Music cards — full width, brighter */
+  .grid{padding:10px;gap:20px;}
+  .card{
+    border:1px solid rgba(255,215,0,.3);
+    background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.09));
+  }
 }
 
 </style>
@@ -899,7 +921,7 @@ footer{
 <div class="card" data-artist="gohara" data-title="ФРАНЦУЖЕНКА"><h3>ФРАНЦУЖЕНКА</h3><p>Եվրոպական զգացմունքային atmosphere։</p><audio controls><source src="audio/gohara/featured/fracuzhenka.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="gohara" data-title="Գիշերային"><h3>Գիշերային</h3><p>Մութ գիշերային cinematic տրամադրություն։</p><audio controls><source src="audio/gohara/featured/gisherajin.mp3" type="audio/mpeg"></audio></div>
 <div class="card" data-artist="gohara" data-title="Կանչիր կգամ"><h3>Կանչիր կգամ</h3><p>Զգացմունքային և սպասումով լի երգ։</p><audio controls><source src="audio/gohara/featured/kanchir-kgam.mp3" type="audio/mpeg"></audio></div>
-<div class="card" data-artist="gohara" data-title="Ցնծիր ուսերս"><h3>Ցնծիր սերս</h3><p>Ռոմանտիկ և մեղմ atmosphere ունեցող ստեղծագործություն։</p><audio controls><source src="audio/gohara/featured/cncir-users.mp3" type="audio/mpeg"></audio></div>
+<div class="card" data-artist="gohara" data-title="Ցնծիր սերս"><h3>Ցնծիր սերս</h3><p>Ռոմանտիկ և մեղմ atmosphere ունեցող ստեղծագործություն։</p><audio controls><source src="audio/gohara/featured/cncir-users.mp3" type="audio/mpeg"></audio></div>
 
 
 </div>
@@ -1446,31 +1468,11 @@ document.addEventListener('play', e=>{
    ARTIST PANEL
 ═══════════════════════════════════ */
 const artistData={
-  silva:{
-    name:'Սilva Gulanyan', img:'authors/silva-gulanyan/cover.jpg',
-    socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],
-    songs:[{t:'Ի՞nch em anelu',s:'audio/silva/featured/inch-em-anelu.mp3'},{t:'Tsov arev achqer',s:'audio/silva/featured/tsov-arev-achqer.mp3'},{t:'Gij qamin',s:'audio/silva/featured/gij-qamin.mp3'},{t:'Gij qamin Trilingual',s:'audio/silva/featured/gij.mp3'},{t:'Yergichы dari',s:'audio/silva/featured/ergichy-dari.mp3'},{t:'Gorsh trik ankun',s:'audio/silva/featured/gortrik-ankun.mp3'},{t:'Voch mek qez pes',s:'audio/silva/featured/der-inz-voch-mek-chi-sirel-qo-pes.mp3'}]
-  },
-  gohara:{
-    name:'Го Нarа', img:'authors/go-hara/cover.jpg',
-    socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],
-    songs:[{t:'Darnaham ginin',s:'audio/gohara/featured/darnaham-ginin.mp3'},{t:'LA FRANÇAISE',s:'audio/gohara/featured/la-fracise.mp3'},{t:'ФРАНЦУЖЕНКА',s:'audio/gohara/featured/fracuzhenka.mp3'},{t:'Gisherayin',s:'audio/gohara/featured/gisherajin.mp3'},{t:'Kanchir kgam',s:'audio/gohara/featured/kanchir-kgam.mp3'},{t:'Cnchir sers',s:'audio/gohara/featured/cncir-users.mp3'}]
-  },
-  lilit:{
-    name:'Lilit Aghasyan', img:'authors/lilit-aghasyan/cover.jpg',
-    socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Telegram',u:'https://t.me/'}],
-    songs:[{t:'Deghatoms',s:'audio/lilit-aghasyan/deratoms.mp3'},{t:'Dghyak',s:'audio/lilit-aghasyan/driak.mp3'},{t:'Yerani zgas',s:'audio/lilit-aghasyan/erani-zgas.mp3'},{t:'Sa e qo sern',s:'audio/lilit-aghasyan/sae-qosery.mp3'}]
-  },
-  narine:{
-    name:'Narine Balasbekyan', img:'authors/narine-balasbekyan/cover.jpg',
-    socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Telegram',u:'https://t.me/'}],
-    songs:[{t:'Kinуn',s:'audio/narine-balasbekyan/kiny.mp3'},{t:'Sirenq hima',s:'audio/narine-balasbekyan/sirenq-hima.mp3'}]
-  },
-  imastun:{
-    name:'Imastun', img:'authors/imastun/cover.jpg',
-    socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Suno',u:'https://suno.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],
-    songs:[{t:'Lur heraxos',s:'audio/imastun/featured/lur-heraxos.mp3'},{t:'Qo jinj hogin',s:'audio/imastun/featured/qo-jinj-hogin.mp3'},{t:'Ser anurji',s:'audio/imastun/featured/ser-anurji.mp3'},{t:'Shepot',s:'audio/imastun/featured/shepot.mp3'},{t:'Shshnjatc',s:'audio/imastun/featured/shshnjatc.mp3'},{t:'Shshnjatc noric',s:'audio/imastun/featured/shshnjatc-noric.mp3'},{t:'Siro kenacy',s:'audio/imastun/featured/siro-kenacy.mp3'},{t:'Hogu arzaganq',s:'audio/imastun/featured/hogu-arzaganq.mp3'},{t:'Inchi hamar',s:'audio/imastun/featured/inchi-hamar.mp3'},{t:'Haverji yerty',s:'audio/imastun/featured/haverji-erty.mp3'},{t:'🎵 Suno',s:null,suno:'https://suno.com/@imastun'}]
-  }
+  silva:{name:'Սիլվա Գուլանյան',img:'authors/silva-gulanyan/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],songs:[{t:'Ի՞նչ եմ անելու',s:'audio/silva/featured/inch-em-anelu.mp3'},{t:'Ծով արև աչքեր',s:'audio/silva/featured/tsov-arev-achqer.mp3'},{t:'Գիժ քամին',s:'audio/silva/featured/im-tsovagur.mp3'},{t:'Գիժ քամին Trilingual Duet',s:'audio/silva/featured/gij.mp3'},{t:'Երգիչը դարի',s:'audio/silva/featured/ergichy-dari.mp3'},{t:'Գորշ տրիկ անկյուն',s:'audio/silva/featured/gortrik-ankun.mp3'},{t:'Ոչ մեկ քեզ պես',s:'audio/silva/featured/der-inz-voch-mek-chi-sirel-qo-pes.mp3'}]},
+  gohara:{name:'Գո Հարա',img:'authors/go-hara/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],songs:[{t:'Դառնահամ գինին',s:'audio/gohara/featured/darnaham-ginin.mp3'},{t:'LA FRANÇAISE',s:'audio/gohara/featured/la-fracise.mp3'},{t:'ФРАНЦУЖЕНКА',s:'audio/gohara/featured/fracuzhenka.mp3'},{t:'Գիշերային',s:'audio/gohara/featured/gisherajin.mp3'},{t:'Կանչիր կգամ',s:'audio/gohara/featured/kanchir-kgam.mp3'},{t:'Ցնծիր սերս',s:'audio/gohara/featured/cncir-users.mp3'}]},
+  lilit:{name:'Լիլիթ Աղասյան',img:'authors/lilit-aghasyan/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Telegram',u:'https://t.me/'}],songs:[{t:'Դեղատոմս',s:'audio/lilit-aghasyan/deratoms.mp3'},{t:'Դղյակ',s:'audio/lilit-aghasyan/driak.mp3'},{t:'Երանի զգաս',s:'audio/lilit-aghasyan/erani-zgas.mp3'},{t:'Սա է քո սերը',s:'audio/lilit-aghasyan/sae-qosery.mp3'}]},
+  narine:{name:'Նարինե Բալասբեկյան',img:'authors/narine-balasbekyan/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Telegram',u:'https://t.me/'}],songs:[{t:'Կինը',s:'audio/narine-balasbekyan/kiny.mp3'},{t:'Սիրենք հիմա',s:'audio/narine-balasbekyan/sirenq-hima.mp3'}]},
+  imastun:{name:'Imastun',img:'authors/imastun/cover.jpg',socials:[{l:'Facebook',u:'https://www.facebook.com/Vahan.Vardevanyan'},{l:'Messenger',u:'https://m.me/Vahan.Vardevanyan'},{l:'Instagram',u:'https://www.instagram.com/'},{l:'YouTube',u:'https://www.youtube.com/'},{l:'Suno',u:'https://suno.com/'},{l:'TikTok',u:'https://www.tiktok.com/'},{l:'Telegram',u:'https://t.me/'},{l:'Website',u:'https://imastunstudios.netlify.app/'}],songs:[{t:'Լուռ հեռախոս',s:'audio/imastun/featured/lur-heraxos.mp3'},{t:'Քո ջինջ հոգին',s:'audio/imastun/featured/qo-jinj-hogin.mp3'},{t:'Սեր անուրջի',s:'audio/imastun/featured/ser-anurji.mp3'},{t:'Շեպոտ',s:'audio/imastun/featured/shepot.mp3'},{t:'Շշնջաց',s:'audio/imastun/featured/shshnjatc.mp3'},{t:'Շշնջաց նորից',s:'audio/imastun/featured/shshnjatc-noric.mp3'},{t:'Սիրո կենացը',s:'audio/imastun/featured/siro-kenacy.mp3'},{t:'Հոգու արձագանք',s:'audio/imastun/featured/hogu-arzaganq.mp3'},{t:'Ինչի համար',s:'audio/imastun/featured/inchi-hamar.mp3'},{t:'Հավերժի երթը',s:'audio/imastun/featured/haverji-erty.mp3'},{t:'🎵 Suno',s:null,suno:'https://suno.com/@imastun'}]}
 };
 
 function openArtistPanel(key){
