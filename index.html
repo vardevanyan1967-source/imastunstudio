@@ -1038,45 +1038,92 @@ footer{
   }
 }
 
-/* ===== CLEAN AUTHOR SYSTEM V3 ===== */
+/* ===== ARTIST GRID SYSTEM ===== */
 #authors{padding-top:90px}
 
 .authors-grid{
-  display:flex;
-  flex-direction:column;
-  gap:38px;
-  max-width:1450px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:24px;
+  max-width:1200px;
   margin:auto;
   padding:20px;
+}
+
+/* ── Artist songs panel ── */
+#artist-panel{
+  display:none;
+  max-width:1200px;
+  margin:0 auto 60px;
+  padding:0 20px;
+}
+#artist-panel.open{ display:block; }
+#artist-panel-header{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  margin-bottom:30px;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(212,175,55,.15);
+}
+#artist-panel-img{
+  width:64px; height:64px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid rgba(212,175,55,.4);
+}
+#artist-panel-name{
+  font-size:26px;
+  color:var(--gold);
+  letter-spacing:1px;
+}
+#artist-panel-close{
+  margin-left:auto;
+  background:none;
+  border:1px solid rgba(212,175,55,.3);
+  color:var(--gold);
+  border-radius:999px;
+  padding:6px 14px;
+  cursor:pointer;
+  font-size:14px;
+  transition:.3s;
+}
+#artist-panel-close:hover{ background:rgba(212,175,55,.12); }
+#artist-panel-songs{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:18px;
 }
 
 .author-card{
   position:relative;
   display:flex;
+  flex-direction:column;
   align-items:center;
-  gap:40px;
-  min-height:260px;
-  border-radius:34px;
+  border-radius:22px;
   overflow:hidden;
   background:#090909;
   border:1px solid rgba(212,175,55,.16);
-  box-shadow:0 0 40px rgba(0,0,0,.65),0 0 80px rgba(212,175,55,.08);
-  transition:.5s ease;
-  backdrop-filter:blur(14px);
+  box-shadow:0 0 30px rgba(0,0,0,.6);
+  cursor:pointer;
+  transition:.4s ease;
+  aspect-ratio:1/1;
 }
 
 .author-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 0 55px rgba(212,175,55,.18),0 0 120px rgba(0,0,0,.9);
-  border:1px solid rgba(255,215,0,.28);
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 0 50px rgba(212,175,55,.22);
+  border-color:rgba(212,175,55,.45);
+}
+
+.author-card.active-artist{
+  border-color:var(--gold);
+  box-shadow:0 0 60px rgba(212,175,55,.35);
 }
 
 .author-cover{
-  position:relative;
-  width:52%;
-  height:260px;
-  overflow:hidden;
-  flex-shrink:0;
+  position:absolute;
+  inset:0;
 }
 
 .author-cover img{
@@ -1087,17 +1134,21 @@ footer{
   transition:.6s ease;
 }
 
-.author-card:hover .author-cover img{transform:scale(1.05)}
+.author-card:hover .author-cover img{transform:scale(1.08)}
 
 .author-cover::after{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(90deg,transparent,rgba(0,0,0,.68));
+  background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.88));
 }
 
 .author-content{
-  position:relative;
+  position:absolute;
+  bottom:0; left:0; right:0;
+  padding:16px;
+  z-index:2;
+  text-align:center;
   z-index:2;
   padding:34px 34px 34px 0;
   flex:1;
@@ -1116,7 +1167,7 @@ footer{
 }
 
 .author-name{
-  font-size:38px;
+  font-size:16px;
   color:#ffd86b;
   margin-bottom:16px;
   text-shadow:0 0 20px rgba(212,175,55,.35);
@@ -1167,15 +1218,62 @@ footer{
   box-shadow:0 0 22px rgba(212,175,55,.35);
 }
 
-.coming-soon{opacity:.92}
-.coming-soon .author-status{background:linear-gradient(135deg,#666,#999);color:#fff}
+/* ══ PANEL SONG CARDS ══ */
+.panel-song-card{
+  background:rgba(10,10,10,.85);
+  border:1px solid rgba(212,175,55,.12);
+  border-radius:18px;
+  padding:18px 20px;
+  transition:.3s;
+}
+.panel-song-card:hover{
+  border-color:rgba(212,175,55,.3);
+  background:rgba(15,12,4,.9);
+}
+.psong-title{
+  color:var(--gold);
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:6px;
+  letter-spacing:.5px;
+}
+.psong-desc{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:10px;
+  line-height:1.6;
+}
+.panel-song-card audio{
+  width:100%;
+  max-width:100%;
+  margin-top:8px;
+}
+
+/* ══ AUTHOR STATUS ══ */
+.author-status{
+  display:inline-block;
+  font-size:10px;
+  letter-spacing:2px;
+  padding:3px 10px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#b8943a,#d4af37);
+  color:#000;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+.coming-soon .author-status{
+  background:linear-gradient(135deg,#555,#888);
+  color:#fff;
+}
+.coming-soon{ opacity:.7; cursor:default; }
+.coming-soon:hover{ transform:none !important; }
 
 @media(max-width:980px){
   .author-card{flex-direction:column;align-items:stretch;min-height:auto;gap:0}
   .author-cover{width:100%;height:260px}
   .author-cover::after{background:linear-gradient(180deg,transparent,rgba(0,0,0,.82))}
   .author-content{padding:28px;text-align:center}
-  .author-name{font-size:28px}
+  .author-name{font-size:16px}
   .author-quote{font-size:17px;margin-left:auto;margin-right:auto}
   .author-socials{justify-content:center}
   .author-track{margin-left:auto;margin-right:auto}
@@ -1387,106 +1485,77 @@ footer{
 
 
 <section id="authors">
-<h2 data-key="authorsTitle">Հեղինակներ</h2>
+<h2 data-key="authorsTitle">Հεղinakner</h2>
 <div class="authors-grid">
 
-<div class="author-card">
-<div class="author-cover"><img src="authors/silva-gulanyan/cover.jpg" alt="Սիլվա Գուլանյան"></div>
-<div class="author-content">
-<span class="author-status" data-key="statusFeatured">FEATURED</span>
-<h3 class="author-name" data-key="authorSilva">Սիլվա Գուլանյան</h3>
-<p class="author-quote" data-key="authorSilvaQuote">«Բառերը ծնվում են հոգու խորքում…»</p>
-<div class="author-track">
-<small data-key="featuredTrack">FEATURED TRACK</small>
-<audio controls><source src="audio/silva/featured/im-tsovagur.mp3" type="audio/mpeg"></audio>
-</div>
-<div class="author-socials"><a href="https://www.facebook.com/Vahan.Vardevanyan" target="_blank" rel="noopener">Facebook</a><a href="https://m.me/Vahan.Vardevanyan" target="_blank" rel="noopener">Messenger</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://imastunstudios.netlify.app/" target="_blank" rel="noopener">Website</a></div>
-</div>
+<div class="author-card" onclick="openArtistPanel('silva')">
+  <div class="author-cover"><img src="authors/silva-gulanyan/cover.jpg" alt="Silva"></div>
+  <div class="author-content">
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Սилва Гуланян</h3>
+  </div>
 </div>
 
-
-<div class="author-card">
-<div class="author-cover"><img src="authors/go-hara/cover.jpg" alt="Գօ Հարա"></div>
-<div class="author-content">
-<span class="author-status" data-key="statusFeatured">FEATURED</span>
-<h3 class="author-name" data-key="authorGohara">Գօ Հարա</h3>
-<p class="author-quote" data-key="authorGoharaQuote">«Սիրտը հիշում է այն, ինչ հոգին չի մոռանում…»</p>
-<div class="author-track">
-<small data-key="featuredTrack">FEATURED TRACK</small>
-<audio controls><source src="audio/gohara/featured/darnaham-ginin.mp3" type="audio/mpeg"></audio>
-</div>
-<div class="author-socials"><a href="https://www.facebook.com/Vahan.Vardevanyan" target="_blank" rel="noopener">Facebook</a><a href="https://m.me/Vahan.Vardevanyan" target="_blank" rel="noopener">Messenger</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://imastunstudios.netlify.app/" target="_blank" rel="noopener">Website</a></div>
-</div>
+<div class="author-card" onclick="openArtistPanel('gohara')">
+  <div class="author-cover"><img src="authors/go-hara/cover.jpg" alt="Go Hara"></div>
+  <div class="author-content">
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Гo Харa</h3>
+  </div>
 </div>
 
-
-<div class="author-card">
-<div class="author-cover"><img src="authors/imastun/cover.jpg" alt="Imastun"></div>
-<div class="author-content">
-<span class="author-status" data-key="statusFeatured">FEATURED</span>
-<h3 class="author-name" data-key="authorImastun">Imastun</h3>
-<p class="author-quote" data-key="authorImastunQuote">«Մթությունը նույնպես կարող է գեղեցիկ լինել…»</p>
-<div class="author-track">
-<small data-key="featuredTrack">FEATURED TRACK</small>
-<audio controls><source src="audio/imastun/featured/siro-kenacy.mp3" type="audio/mpeg"></audio>
+<div class="author-card" onclick="openArtistPanel('imastun')">
+  <div class="author-cover"><img src="authors/imastun/cover.jpg" alt="Imastun"></div>
+  <div class="author-content">
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Imastun</h3>
+  </div>
 </div>
-<div class="suno-embed-wrap">
-<small style="color:var(--gold);font-size:12px;letter-spacing:1px;display:block;margin-bottom:8px;">🎵 SUNO</small>
-<iframe src="https://suno.com/embed/" width="100%" height="152" frameborder="0" allow="autoplay" style="border-radius:14px;background:#000;"></iframe>
-</div>
-<div class="author-socials"><a href="https://www.facebook.com/Vahan.Vardevanyan" target="_blank" rel="noopener">Facebook</a><a href="https://m.me/Vahan.Vardevanyan" target="_blank" rel="noopener">Messenger</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://imastunstudios.netlify.app/" target="_blank" rel="noopener">Website</a></div>
-</div>
-</div>
-
 
 <div class="author-card coming-soon">
-<div class="author-cover"><img src="authors/lilit-aghasyan/cover.jpg" alt="Լիլիթ Աղասյան"></div>
-<div class="author-content">
-<span class="author-status" data-key="statusSoon">COMING SOON</span>
-<h3 class="author-name" data-key="authorLilit">Լիլիթ Աղասյան</h3>
-<p class="author-quote" data-key="comingSoonText">Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։</p>
-
-<div class="author-socials"><a href="https://www.facebook.com/Vahan.Vardevanyan" target="_blank" rel="noopener">Facebook</a><a href="https://m.me/Vahan.Vardevanyan" target="_blank" rel="noopener">Messenger</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://imastunstudios.netlify.app/" target="_blank" rel="noopener">Website</a></div>
+  <div class="author-cover"><img src="authors/lilit-aghasyan/cover.jpg" alt="Lilit"></div>
+  <div class="author-content">
+    <span class="author-status">COMING SOON</span>
+    <h3 class="author-name">Лилит Агасян</h3>
+  </div>
 </div>
-</div>
-
 
 <div class="author-card coming-soon">
-<div class="author-cover"><img src="authors/mareta-sargsyan/cover.jpg" alt="Մարետա Սարգսյան"></div>
-<div class="author-content">
-<span class="author-status" data-key="statusSoon">COMING SOON</span>
-<h3 class="author-name" data-key="authorMareta">Մարետա Սարգսյան</h3>
-<p class="author-quote" data-key="comingSoonText">Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։</p>
-
-<div class="author-socials"><a href="https://www.facebook.com/Vahan.Vardevanyan" target="_blank" rel="noopener">Facebook</a><a href="https://m.me/Vahan.Vardevanyan" target="_blank" rel="noopener">Messenger</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://imastunstudios.netlify.app/" target="_blank" rel="noopener">Website</a></div>
+  <div class="author-cover"><img src="authors/mareta-sargsyan/cover.jpg" alt="Mareta"></div>
+  <div class="author-content">
+    <span class="author-status">COMING SOON</span>
+    <h3 class="author-name">Марета Саргсян</h3>
+  </div>
 </div>
-</div>
-
 
 <div class="author-card coming-soon">
-<div class="author-cover"><img src="authors/narine-balasbekyan/cover.jpg" alt="Նարինե Բալասբեկյան"></div>
-<div class="author-content">
-<span class="author-status" data-key="statusSoon">COMING SOON</span>
-<h3 class="author-name" data-key="authorNarine">Նարինե Բալասբեկյան</h3>
-<p class="author-quote" data-key="comingSoonText">Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։</p>
-
-<div class="author-socials"><a href="https://www.facebook.com/Vahan.Vardevanyan" target="_blank" rel="noopener">Facebook</a><a href="https://m.me/Vahan.Vardevanyan" target="_blank" rel="noopener">Messenger</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://imastunstudios.netlify.app/" target="_blank" rel="noopener">Website</a></div>
+  <div class="author-cover"><img src="authors/narine-balasbekyan/cover.jpg" alt="Narine"></div>
+  <div class="author-content">
+    <span class="author-status">COMING SOON</span>
+    <h3 class="author-name">Нарине Баласбекян</h3>
+  </div>
 </div>
-</div>
-
 
 <div class="author-card coming-soon">
-<div class="author-cover"><img src="authors/nune-muradyan/cover.jpg" alt="Նունե Մուրադյան"></div>
-<div class="author-content">
-<span class="author-status" data-key="statusSoon">COMING SOON</span>
-<h3 class="author-name" data-key="authorNune">Նունե Մուրադյան</h3>
-<p class="author-quote" data-key="comingSoonText">Պոեզիայի հավաքածուն շուտով IMASTUN STUDIO-ում։</p>
-
-<div class="author-socials"><a href="https://www.facebook.com/Vahan.Vardevanyan" target="_blank" rel="noopener">Facebook</a><a href="https://m.me/Vahan.Vardevanyan" target="_blank" rel="noopener">Messenger</a><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://imastunstudios.netlify.app/" target="_blank" rel="noopener">Website</a></div>
-</div>
+  <div class="author-cover"><img src="authors/nune-muradyan/cover.jpg" alt="Nune"></div>
+  <div class="author-content">
+    <span class="author-status">COMING SOON</span>
+    <h3 class="author-name">Нунe Мурадян</h3>
+  </div>
 </div>
 
 </div>
+
+<!-- Artist Songs Panel -->
+<div id="artist-panel">
+  <div id="artist-panel-header">
+    <img id="artist-panel-img" src="" alt="">
+    <div id="artist-panel-name"></div>
+    <button id="artist-panel-close" onclick="closeArtistPanel()">✕ Փakел</button>
+  </div>
+  <div id="artist-panel-songs"></div>
+</div>
+
 </section>
 
 <section id="video">
@@ -2040,8 +2109,108 @@ function fmtTime(s){
 }
 
 /* ══════════════════════════════════════
-   AUTHOR MODAL
+   ARTIST PANEL + SINGLE AUDIO
 ══════════════════════════════════════ */
+const artistSongs={
+  silva:[
+    {title:'Ի՞նch em anelu',src:'audio/silva/featured/inch-em-anelu.mp3',desc:'Зgacmunkajin ev kinematografik sirajin yerg.'},
+    {title:'Tsov arev achqer',src:'audio/silva/featured/tsov-arev-achqer.mp3',desc:'Romantik ev lusavor tramadrutyamb yerg.'},
+    {title:'Gij qamin',src:'audio/silva/featured/gij-qamin.mp3',desc:'Qamu, karoti ev hogu sharjman masin yerg.'},
+    {title:'Gij qamin Trilingual Duet',src:'audio/silva/featured/gij.mp3',desc:'Yeralalez duet tarberак.'},
+    {title:'Yergichы dari',src:'audio/silva/featured/ergichy-dari.mp3',desc:'Зgacmunkajin stexsagortsutыun.'},
+    {title:'Gorsh trik ankун',src:'audio/silva/featured/gortrik-ankun.mp3',desc:'Mrayl u xory zgacmunkajin tramadrutyun.'},
+    {title:'Voch mek qez pes',src:'audio/silva/featured/der-inz-voch-mek-chi-sirel-qo-pes.mp3',desc:'Siro ev karoti masin cinematic stexsagortsutыun.'}
+  ],
+  gohara:[
+    {title:'Darnaham ginin',src:'audio/gohara/featured/darnaham-ginin.mp3',desc:'Mut ev krqot fransиakan mtnolort.'},
+    {title:'LA FRANÇAISE',src:'audio/gohara/featured/la-fracise.mp3',desc:'Fransiakan kinematografik tramadrutyamb yerg.'},
+    {title:'ФРАНЦУЖЕНКА',src:'audio/gohara/featured/fracuzhenka.mp3',desc:'Evropakan zgacmunkajin atmosphere.'},
+    {title:'Gisherayin',src:'audio/gohara/featured/gisherajin.mp3',desc:'Mut gisherayin cinematic tramadrutyun.'},
+    {title:'Kanchir kgam',src:'audio/gohara/featured/kanchir-kgam.mp3',desc:'Zgacmunkajin ev spasumoв li yerg.'},
+    {title:'Cnchir sers',src:'audio/gohara/featured/cncir-users.mp3',desc:'Romantik ev meghm atmosphere.'}
+  ],
+  imastun:[
+    {title:'Lur heraxos',src:'audio/imastun/featured/lur-heraxos.mp3'},
+    {title:'Qo jinj hogin',src:'audio/imastun/featured/qo-jinj-hogin.mp3'},
+    {title:'Ser anurji',src:'audio/imastun/featured/ser-anurji.mp3'},
+    {title:'Shepot',src:'audio/imastun/featured/shepot.mp3'},
+    {title:'Shshnjatc',src:'audio/imastun/featured/shshnjatc.mp3'},
+    {title:'Shshnjatc noric',src:'audio/imastun/featured/shshnjatc-noric.mp3'},
+    {title:'Siro kenacy',src:'audio/imastun/featured/siro-kenacy.mp3'},
+    {title:'Hogu arzaganq',src:'audio/imastun/featured/hogu-arzaganq.mp3'},
+    {title:'Inchi hamar',src:'audio/imastun/featured/inchi-hamar.mp3'},
+    {title:'Haverji yerty',src:'audio/imastun/featured/haverji-erty.mp3'},
+    {title:'🎵 Suno-ում լսել',src:null,sunoUrl:'https://suno.com/@imastun'}
+  ]
+};
+
+const artistInfo={
+  silva:{name:'Սилва Гуланян',img:'authors/silva-gulanyan/cover.jpg'},
+  gohara:{name:'Гo Харa',img:'authors/go-hara/cover.jpg'},
+  imastun:{name:'Imastun',img:'authors/imastun/cover.jpg'}
+};
+
+function openArtistPanel(key){
+  const info=artistInfo[key];
+  const songs=artistSongs[key];
+  if(!info||!songs) return;
+
+  // Mark active card
+  document.querySelectorAll('.author-card').forEach(c=>c.classList.remove('active-artist'));
+  document.querySelector(`.author-card[onclick*="${key}"]`)?.classList.add('active-artist');
+
+  // Set header
+  document.getElementById('artist-panel-img').src=info.img;
+  document.getElementById('artist-panel-name').textContent=info.name;
+
+  // Build song mini-cards
+  const container=document.getElementById('artist-panel-songs');
+  container.innerHTML='';
+  songs.forEach(song=>{
+    const div=document.createElement('div');
+    div.className='panel-song-card';
+    if(song.sunoUrl){
+      // Suno link card
+      div.innerHTML=`
+        <div class="psong-title">${song.title}</div>
+        <a href="${song.sunoUrl}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;padding:9px 20px;border-radius:999px;border:1px solid rgba(212,175,55,.4);color:var(--gold);font-size:14px;text-decoration:none;transition:.3s;" onmouseover="this.style.background='rgba(212,175,55,.12)'" onmouseout="this.style.background='transparent'">Suno-ում բaцvel ↗</a>
+      `;
+    } else {
+      div.innerHTML=`
+        <div class="psong-title">${song.title}</div>
+        ${song.desc?`<div class="psong-desc">${song.desc}</div>`:''}
+        <audio controls onplay="stopOtherAudios(this)"><source src="${song.src}" type="audio/mpeg"></audio>
+      `;
+    }
+    container.appendChild(div);
+  });
+
+  // Open panel and scroll to it
+  const panel=document.getElementById('artist-panel');
+  panel.classList.add('open');
+  setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+function closeArtistPanel(){
+  document.getElementById('artist-panel').classList.remove('open');
+  document.querySelectorAll('.author-card').forEach(c=>c.classList.remove('active-artist'));
+  // Stop all audio in panel
+  document.querySelectorAll('#artist-panel audio').forEach(a=>{ a.pause(); a.currentTime=0; });
+}
+
+/* Single audio rule — stop ALL other audios when one plays */
+function stopOtherAudios(current){
+  document.querySelectorAll('audio').forEach(a=>{
+    if(a!==current){ a.pause(); a.currentTime=0; }
+  });
+  // Also pause playlist audio if playing
+  if(typeof plAudio!=='undefined'&&plAudio!==current){ plAudio.pause(); }
+}
+
+// Also apply to all page audios
+document.addEventListener('play', e=>{
+  if(e.target.tagName==='AUDIO') stopOtherAudios(e.target);
+}, true);
 const authorData={
   silva:{name:'Սիлva Gulanyan',img:'authors/silva-gulanyan/cover.jpg',quote:'«Barere tsnvum en hogu xorqum…»',bio:'Silva Gulanyan — hay kinematografik erchuh, vor dzayn kamrjum e poezian ev yerazhshtutyan. Nra stexsagortsutyunnere nerycxvats en karotov, sirov ev azgayin ogyov.',songs:'Inch em anelu · Tsov arev achqer · Gij qamin · Yergichd dari'},
   gohara:{name:'Go Hara',img:'authors/go-hara/cover.jpg',quote:'«Sirte hishum e ayn, inch hogin chi morannum…»',bio:'Go Hara — franc-haykakan voji cinematic kataroghuh. Nra yergere champordum en Parizhen minchev Hayastani lernery.',songs:'Darnaham ginin · LA FRANÇAISE · Gisherayin · Kanchir kgam'},
