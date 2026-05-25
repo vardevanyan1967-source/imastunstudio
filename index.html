@@ -291,15 +291,15 @@ h2{
   flex-direction:column;
   align-items:center;
   background:
-    linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));
+    linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.06));
   padding:24px;
   border-radius:28px;
   overflow:hidden;
   backdrop-filter:blur(10px);
-  border:1px solid rgba(255,215,0,.08);
+  border:1px solid rgba(255,215,0,.18);
   box-shadow:
-    0 0 25px rgba(0,0,0,.45),
-    0 0 60px rgba(0,0,0,.2);
+    0 0 20px rgba(0,0,0,.3),
+    0 0 40px rgba(0,0,0,.15);
   transition:all .45s ease;
 }
 
@@ -1133,6 +1133,7 @@ footer{
   object-position:center top;
   display:block;
   transition:.6s ease;
+  filter:brightness(1.15) contrast(1.05);
 }
 
 .author-card:hover .author-cover img{transform:scale(1.05)}
@@ -1141,7 +1142,7 @@ footer{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(90deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.7) 50%,rgba(0,0,0,.92) 100%);
+  background:linear-gradient(90deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.35) 50%,rgba(0,0,0,.65) 100%);
 }
 
 .author-content{
@@ -1231,17 +1232,73 @@ footer{
   box-shadow:0 0 22px rgba(212,175,55,.35);
 }
 
-/* ══ PANEL SONG CARDS ══ */
+/* ══ LIGHTBOX ══ */
+#lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.96);
+  align-items:center;
+  justify-content:center;
+  cursor:zoom-out;
+  backdrop-filter:blur(8px);
+}
+#lightbox.open{ display:flex; }
+#lightbox img{
+  max-width:96vw;
+  max-height:92vh;
+  border-radius:12px;
+  object-fit:contain;
+  box-shadow:0 0 80px rgba(212,175,55,.2);
+  cursor:default;
+}
+#lightbox-close{
+  position:absolute;
+  top:18px; right:24px;
+  background:none;
+  border:1px solid rgba(212,175,55,.4);
+  color:var(--gold);
+  font-size:22px;
+  border-radius:999px;
+  padding:6px 14px;
+  cursor:pointer;
+  z-index:10000;
+  transition:.3s;
+}
+#lightbox-close:hover{ background:rgba(212,175,55,.15); }
+
+/* ══ VIDEO CARD MOBILE FIX ══ */
+.card video{
+  width:100%;
+  border-radius:14px;
+  display:block;
+  background:#000;
+  cursor:pointer;
+}
+/* Make video expand to fill width on mobile */
+@media(max-width:900px){
+  .card video{
+    height:auto;
+    min-height:200px;
+  }
+  /* When a video is playing, expand it */
+  .card video:fullscreen,
+  .card video:-webkit-full-screen{
+    width:100vw;
+    height:100vh;
+  }
+}
 .panel-song-card{
-  background:rgba(10,10,10,.85);
-  border:1px solid rgba(212,175,55,.12);
+  background:rgba(30,25,10,.85);
+  border:1px solid rgba(212,175,55,.22);
   border-radius:18px;
   padding:18px 20px;
   transition:.3s;
 }
 .panel-song-card:hover{
-  border-color:rgba(212,175,55,.3);
-  background:rgba(15,12,4,.9);
+  border-color:rgba(212,175,55,.45);
+  background:rgba(40,32,10,.9);
 }
 .psong-title{
   color:var(--gold);
@@ -1330,6 +1387,12 @@ footer{
 
 <canvas id="particles-canvas"></canvas>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
 <!-- SHARE TOAST -->
 <div class="share-toast" id="shareToast">🔗 Հղումը պատճենված է</div>
 
@@ -1402,11 +1465,11 @@ footer{
   </div>
 </div>
 
-<div class="author-card coming-soon">
+<div class="author-card" onclick="openArtistPanel('lilit')">
   <div class="author-cover"><img src="authors/lilit-aghasyan/cover.jpg" alt="Lilit"></div>
   <div class="author-content">
-    <span class="author-status">COMING SOON</span>
-    <h3 class="author-name">Լիլիթ Աղասյան</h3>
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Լիлит Агасян</h3>
   </div>
 </div>
 
@@ -1418,11 +1481,11 @@ footer{
   </div>
 </div>
 
-<div class="author-card coming-soon">
+<div class="author-card" onclick="openArtistPanel('narine')">
   <div class="author-cover"><img src="authors/narine-balasbekyan/cover.jpg" alt="Narine"></div>
   <div class="author-content">
-    <span class="author-status">COMING SOON</span>
-    <h3 class="author-name">Նարինե Բալասբեկյան</h3>
+    <span class="author-status">FEATURED</span>
+    <h3 class="author-name">Նарине Баласбекян</h3>
   </div>
 </div>
 
@@ -2132,21 +2195,31 @@ function fmtTime(s){
 ══════════════════════════════════════ */
 const artistSongs={
   silva:[
-    {title:'Ի՞նch em anelu',src:'audio/silva/featured/inch-em-anelu.mp3',desc:'Зgacmunkajin ev kinematografik sirajin yerg.'},
+    {title:'Ի՞նch em anelu',src:'audio/silva/featured/inch-em-anelu.mp3',desc:'Zgacmunkajin ev kinematografik sirajin yerg.'},
     {title:'Tsov arev achqer',src:'audio/silva/featured/tsov-arev-achqer.mp3',desc:'Romantik ev lusavor tramadrutyamb yerg.'},
     {title:'Gij qamin',src:'audio/silva/featured/gij-qamin.mp3',desc:'Qamu, karoti ev hogu sharjman masin yerg.'},
     {title:'Gij qamin Trilingual Duet',src:'audio/silva/featured/gij.mp3',desc:'Yeralalez duet tarberак.'},
-    {title:'Yergichы dari',src:'audio/silva/featured/ergichy-dari.mp3',desc:'Зgacmunkajin stexsagortsutыun.'},
-    {title:'Gorsh trik ankун',src:'audio/silva/featured/gortrik-ankun.mp3',desc:'Mrayl u xory zgacmunkajin tramadrutyun.'},
+    {title:'Yergichы dari',src:'audio/silva/featured/ergichy-dari.mp3',desc:'Zgacmunkajin stexsagortsutыun.'},
+    {title:'Gorsh trik ankun',src:'audio/silva/featured/gortrik-ankun.mp3',desc:'Mrayl u xory zgacmunkajin tramadrutyun.'},
     {title:'Voch mek qez pes',src:'audio/silva/featured/der-inz-voch-mek-chi-sirel-qo-pes.mp3',desc:'Siro ev karoti masin cinematic stexsagortsutыun.'}
   ],
   gohara:[
-    {title:'Darnaham ginin',src:'audio/gohara/featured/darnaham-ginin.mp3',desc:'Mut ev krqot fransиakan mtnolort.'},
+    {title:'Darnaham ginin',src:'audio/gohara/featured/darnaham-ginin.mp3',desc:'Mut ev krqot fransakan mtnolort.'},
     {title:'LA FRANÇAISE',src:'audio/gohara/featured/la-fracise.mp3',desc:'Fransiakan kinematografik tramadrutyamb yerg.'},
     {title:'ФРАНЦУЖЕНКА',src:'audio/gohara/featured/fracuzhenka.mp3',desc:'Evropakan zgacmunkajin atmosphere.'},
     {title:'Gisherayin',src:'audio/gohara/featured/gisherajin.mp3',desc:'Mut gisherayin cinematic tramadrutyun.'},
-    {title:'Kanchir kgam',src:'audio/gohara/featured/kanchir-kgam.mp3',desc:'Zgacmunkajin ev spasumoв li yerg.'},
+    {title:'Kanchir kgam',src:'audio/gohara/featured/kanchir-kgam.mp3',desc:'Zgacmunkajin ev spasumov li yerg.'},
     {title:'Cnchir sers',src:'audio/gohara/featured/cncir-users.mp3',desc:'Romantik ev meghm atmosphere.'}
+  ],
+  lilit:[
+    {title:'Դеղатомс',src:'audio/lilit-aghasyan/deratoms.mp3',desc:'Zgacmunkajin ev xory sirajin stexsagortsutыun.'},
+    {title:'Дղяk',src:'audio/lilit-aghasyan/driak.mp3',desc:'Kinematografik u melanxolik tramadrutyun.'},
+    {title:'Yerani zgas',src:'audio/lilit-aghasyan/erani-zgas.mp3',desc:'Karoti ev nerqin tsavi masin yerg.'},
+    {title:'Sa e qo sern',src:'audio/lilit-aghasyan/sae-qosery.mp3',desc:'Meghm u mut romantic atmosphere.'}
+  ],
+  narine:[
+    {title:'Kinуn',src:'audio/narine-balasbekyan/kiny.mp3',desc:'Knoji nerashxarhi masin cinematic yerg.'},
+    {title:'Sirenq hima',src:'audio/narine-balasbekyan/sirenq-hima.mp3',desc:'Zgacmunkajin ev huzich sirajin yerg.'}
   ],
   imastun:[
     {title:'Lur heraxos',src:'audio/imastun/featured/lur-heraxos.mp3'},
@@ -2159,7 +2232,7 @@ const artistSongs={
     {title:'Hogu arzaganq',src:'audio/imastun/featured/hogu-arzaganq.mp3'},
     {title:'Inchi hamar',src:'audio/imastun/featured/inchi-hamar.mp3'},
     {title:'Haverji yerty',src:'audio/imastun/featured/haverji-erty.mp3'},
-    {title:'🎵 Suno-ում լսել',src:null,sunoUrl:'https://suno.com/@imastun'}
+    {title:'Suno-um lsel',src:null,sunoUrl:'https://suno.com/@imastun'}
   ]
 };
 
@@ -2203,8 +2276,35 @@ const artistInfo={
       {label:'Telegram',url:'https://t.me/'},
       {label:'Website',url:'https://imastunstudios.netlify.app/'}
     ]
+  ,
+  lilit:{
+    name:'Lilit Aghasyan',
+    img:'authors/lilit-aghasyan/cover.jpg',
+    socials:[
+      {label:'Facebook',url:'https://www.facebook.com/Vahan.Vardevanyan'},
+      {label:'Messenger',url:'https://m.me/Vahan.Vardevanyan'},
+      {label:'Instagram',url:'https://www.instagram.com/'},
+      {label:'YouTube',url:'https://www.youtube.com/'},
+      {label:'TikTok',url:'https://www.tiktok.com/'},
+      {label:'Telegram',url:'https://t.me/'},
+      {label:'Website',url:'https://imastunstudios.netlify.app/'}
+    ]
+  },
+  narine:{
+    name:'Narine Balasbekyan',
+    img:'authors/narine-balasbekyan/cover.jpg',
+    socials:[
+      {label:'Facebook',url:'https://www.facebook.com/Vahan.Vardevanyan'},
+      {label:'Messenger',url:'https://m.me/Vahan.Vardevanyan'},
+      {label:'Instagram',url:'https://www.instagram.com/'},
+      {label:'YouTube',url:'https://www.youtube.com/'},
+      {label:'TikTok',url:'https://www.tiktok.com/'},
+      {label:'Telegram',url:'https://t.me/'},
+      {label:'Website',url:'https://imastunstudios.netlify.app/'}
+    ]
   }
 };
+
 
 function openArtistPanel(key){
   const info=artistInfo[key];
@@ -2268,15 +2368,15 @@ function stopOtherAudios(current){
   document.querySelectorAll('audio').forEach(a=>{
     if(a!==current){ a.pause(); a.currentTime=0; }
   });
-  // Stop all video elements (except background video)
+  // Pause other videos (NOT reset position — so they stay where they were)
   document.querySelectorAll('video:not(.bg-video)').forEach(v=>{
-    v.pause(); v.currentTime=0;
+    if(v!==current) v.pause();
   });
   // Also pause playlist audio
   if(typeof plAudio!=='undefined'&&plAudio!==current){ plAudio.pause(); }
 }
 
-// Single media rule — fires on ANY audio or video play
+// Single media rule
 document.addEventListener('play', e=>{
   if(e.target.tagName==='AUDIO'||e.target.tagName==='VIDEO'){
     if(e.target.classList.contains('bg-video')) return;
@@ -2360,6 +2460,67 @@ function initParticles(){
 }
 
 /* ══════════════════════════════════════
+   LIGHTBOX — image fullscreen on click
+══════════════════════════════════════ */
+function initLightbox(){
+  // Make author card images clickable
+  document.querySelectorAll('.author-cover img').forEach(img=>{
+    img.style.cursor='zoom-in';
+    img.addEventListener('click', e=>{
+      e.stopPropagation();
+      openLightbox(img.src);
+    });
+  });
+  // Also make any .card img clickable
+  document.querySelectorAll('.card img').forEach(img=>{
+    img.style.cursor='zoom-in';
+    img.addEventListener('click', e=>{
+      e.stopPropagation();
+      openLightbox(img.src);
+    });
+  });
+}
+
+function openLightbox(src){
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') closeLightbox();
+});
+
+/* ══════════════════════════════════════
+   VIDEO — click pauses others, stays visible
+══════════════════════════════════════ */
+function initVideoCards(){
+  document.querySelectorAll('.card video').forEach(video=>{
+    // On mobile, try to go fullscreen when play is pressed
+    video.addEventListener('play', ()=>{
+      // Stop other videos/audios (already handled by global listener)
+      // On mobile — request fullscreen for better UX
+      if(window.innerWidth<=900){
+        if(video.requestFullscreen) video.requestFullscreen().catch(()=>{});
+        else if(video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+      }
+    });
+
+    // When fullscreen exits, pause the video so user sees the poster/controls
+    document.addEventListener('fullscreenchange', ()=>{
+      if(!document.fullscreenElement){
+        // Don't pause — let user continue listening
+      }
+    });
+  });
+}
+
+/* ══════════════════════════════════════
    BOOT
 ══════════════════════════════════════ */
 document.addEventListener("DOMContentLoaded", function(){
@@ -2370,6 +2531,8 @@ document.addEventListener("DOMContentLoaded", function(){
   initLazyReveal();
   initParallax();
   initParticles();
+  initLightbox();
+  initVideoCards();
 });
 </script>
 
