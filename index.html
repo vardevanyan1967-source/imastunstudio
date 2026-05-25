@@ -291,25 +291,40 @@ h2{
   flex-direction:column;
   align-items:center;
   background:
-    linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.07));
-  padding:24px;
+    linear-gradient(145deg,
+      rgba(255,220,80,.08) 0%,
+      rgba(255,255,255,.06) 40%,
+      rgba(212,175,55,.04) 100%);
+  padding:26px 24px;
   border-radius:28px;
   overflow:hidden;
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,215,0,.22);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(212,175,55,.28);
   box-shadow:
-    0 0 15px rgba(0,0,0,.3),
-    0 0 35px rgba(0,0,0,.15);
+    0 0 0 1px rgba(255,215,0,.06) inset,
+    0 2px 30px rgba(0,0,0,.35),
+    0 0 60px rgba(212,175,55,.06);
   transition:all .45s ease;
+}
+
+/* top shine line */
+.card::after{
+  content:"";
+  position:absolute;
+  top:0; left:10%; right:10%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,215,0,.55),transparent);
+  border-radius:999px;
 }
 
 .card::before{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.055),transparent);
+  background:linear-gradient(120deg,transparent 30%,rgba(255,230,100,.07),transparent 70%);
   transform:translateX(-120%);
-  transition:.8s;
+  transition:.9s;
+  pointer-events:none;
 }
 
 .card:hover::before{
@@ -319,9 +334,11 @@ h2{
 .card:hover{
   transform:translateY(-8px) scale(1.015);
   box-shadow:
-    0 0 35px rgba(0,0,0,.6),
-    0 0 50px rgba(212,175,55,.18);
-  border:1px solid rgba(212,175,55,.25);
+    0 0 0 1px rgba(255,215,0,.15) inset,
+    0 8px 40px rgba(0,0,0,.5),
+    0 0 80px rgba(212,175,55,.18),
+    0 0 120px rgba(212,175,55,.06);
+  border:1px solid rgba(212,175,55,.55);
 }
 
 .card h3{
@@ -329,7 +346,9 @@ h2{
   margin-bottom:18px;
   color:var(--gold);
   text-align:center;
-  text-shadow:0 0 10px rgba(212,175,55,.3);
+  text-shadow:
+    0 0 12px rgba(212,175,55,.5),
+    0 0 30px rgba(212,175,55,.2);
   letter-spacing:1px;
   z-index:1;
 }
