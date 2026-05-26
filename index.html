@@ -1689,22 +1689,29 @@ function addToPlaylist(card,btn,src){
     card.classList.remove('in-playlist');
     if(plIndex>=idx)plIndex=Math.max(-1,plIndex-1);
     renderPL();
-    if(playlist.length===0){document.getElementById('playlist-bar').classList.remove('open');plAudio.pause();plIndex=-1;setPC(null);}
+    if(playlist.length===0){
+      document.getElementById('playlist-bar').classList.remove('open');
+      plAudio.pause();plIndex=-1;setPC(null);
+    }
     return;
   }
   playlist.push({src,title,artist,card,btn});
   btn.classList.add('added');btn.textContent='✓ Playlist';
   card.classList.add('in-playlist');
   document.getElementById('playlist-bar').classList.add('open');
-  renderPL();
-  // Play immediately using user gesture from this click
-  if(plIndex===-1){
-    plIndex=playlist.length-1;
-    plAudio.src=src;
-    plAudio.volume=1;
-    plAudio.play(); // This works because we're inside a click handler
-    document.getElementById('now-playing-title').textContent=title;
-    setPC(plIndex);
+  if(plIndex===-1) plIndex=playlist.length-1;
+  // Set source but DON'T play — user plays from playlist bar
+  plAudio.src=playlist[plIndex].src;
+  document.getElementById('now-playing-title').textContent=playlist[plIndex].title;
+  renderPL();setPC(plIndex);
+}
+
+function togglePlPlay(){
+  if(playlist.length===0) return;
+  if(plAudio.paused){
+    plAudio.play();
+  } else {
+    plAudio.pause();
   }
 }
 
@@ -1717,7 +1724,8 @@ function renderPL(){
     div.innerHTML='<span class="pl-num">'+(i+1)+'</span><span style="flex:1">'+item.title+'</span><span class="pl-artist">'+item.artist+'</span>';
     div.onclick=()=>plPlay(i);
     list.appendChild(div);
-  });
+  })
+};
 }
 
 function setPC(i){
@@ -1726,11 +1734,11 @@ function setPC(i){
 }
 
 function plPlay(i){
-  if(i<0||i>=playlist.length)return;
+  if(i<0||i>=playlist.length) return;
   plIndex=i;
   plAudio.src=playlist[i].src;
   plAudio.volume=1;
-  plAudio.play().catch(()=>{});
+  plAudio.play();
   document.getElementById('now-playing-title').textContent=playlist[i].title;
   renderPL();setPC(i);
 }
