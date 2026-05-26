@@ -1697,7 +1697,15 @@ function addToPlaylist(card,btn,src){
   card.classList.add('in-playlist');
   document.getElementById('playlist-bar').classList.add('open');
   renderPL();
-  if(plIndex===-1){plIndex=playlist.length-1;plPlay(plIndex);}
+  // Play immediately using user gesture from this click
+  if(plIndex===-1){
+    plIndex=playlist.length-1;
+    plAudio.src=src;
+    plAudio.volume=1;
+    plAudio.play(); // This works because we're inside a click handler
+    document.getElementById('now-playing-title').textContent=title;
+    setPC(plIndex);
+  }
 }
 
 function renderPL(){
@@ -1854,14 +1862,15 @@ document.addEventListener('DOMContentLoaded',function(){
 <!-- PLAYLIST BAR -->
 <div id="playlist-bar">
   <div id="playlist-header">
-    <button id="pl-playpause" onclick="togglePlPlay()">▶</button>
-    <h4 onclick="togglePlaylistExpand()" style="cursor:pointer;">PLAYLIST</h4>
+    <h4 onclick="togglePlaylistExpand()" style="cursor:pointer;white-space:nowrap;">▶ PLAYLIST</h4>
     <span id="now-playing-title" style="flex:1;padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#f5e7c1;font-size:14px;font-style:italic;">— orch mi yerg —</span>
     <button id="playlist-toggle-btn" onclick="togglePlaylistExpand()">▲</button>
   </div>
   <div class="pl-controls">
     <button class="pl-mode-btn" id="shuffleBtn" onclick="toggleShuffle()">⇄</button>
     <button id="pl-prev" onclick="plPrev()">&#9664;</button>
+    <button id="pl-playpause" onclick="togglePlPlay()">▶</button>
+    <button id="pl-playpause" onclick="togglePlPlay()">▶</button>
     <button id="pl-next" onclick="plNext()">&#9654;</button>
     <div class="pl-progress" id="plProgress" onclick="plSeek(event)">
       <div class="pl-progress-fill" id="plFill"></div>
