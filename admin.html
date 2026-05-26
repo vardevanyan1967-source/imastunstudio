@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMASTUN STUDIO — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+  background:#050505;
+  color:#f5e7c1;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  min-height:100vh;
+  padding:30px 20px 80px;
+}
+h1{
+  text-align:center;
+  font-size:32px;
+  color:#d4af37;
+  letter-spacing:4px;
+  margin-bottom:8px;
+  text-shadow:0 0 30px rgba(212,175,55,.4);
+}
+.subtitle{
+  text-align:center;
+  color:#7a6e58;
+  font-size:14px;
+  letter-spacing:2px;
+  margin-bottom:40px;
+}
+.line{
+  width:120px; height:1px;
+  background:linear-gradient(90deg,transparent,#d4af37,transparent);
+  margin:16px auto 40px;
+}
+
+/* ADD FORM */
+.add-form{
+  max-width:700px;
+  margin:0 auto 50px;
+  background:rgba(20,16,5,.8);
+  border:1px solid rgba(212,175,55,.2);
+  border-radius:24px;
+  padding:30px;
+  backdrop-filter:blur(10px);
+}
+.add-form h2{
+  color:#d4af37;
+  font-size:20px;
+  margin-bottom:24px;
+  letter-spacing:1px;
+}
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-bottom:14px;
+}
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.form-group.full{ grid-column:1/-1; }
+label{
+  font-size:12px;
+  color:#7a6e58;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+input, select, textarea{
+  padding:12px 16px;
+  border-radius:12px;
+  border:1px solid rgba(212,175,55,.25);
+  background:rgba(10,8,2,.8);
+  color:#f5e7c1;
+  font-size:14px;
+  font-family:Georgia,serif;
+  outline:none;
+  transition:.3s;
+}
+input:focus, select:focus, textarea:focus{
+  border-color:rgba(212,175,55,.6);
+  box-shadow:0 0 20px rgba(212,175,55,.1);
+}
+select option{ background:#1a1408; }
+textarea{ resize:vertical; min-height:80px; }
+.btn-add{
+  width:100%;
+  padding:14px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#d4af37,#ffe082);
+  color:#000;
+  border:none;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  letter-spacing:1px;
+  margin-top:10px;
+  transition:.3s;
+  font-family:Georgia,serif;
+}
+.btn-add:hover{ transform:translateY(-2px); box-shadow:0 0 30px rgba(212,175,55,.4); }
+
+/* SONG LIST */
+.songs-section{
+  max-width:700px;
+  margin:0 auto;
+}
+.songs-section h2{
+  color:#d4af37;
+  font-size:20px;
+  margin-bottom:20px;
+  letter-spacing:1px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.songs-section h2 span{
+  font-size:13px;
+  color:#7a6e58;
+  font-weight:normal;
+}
+.song-item{
+  background:rgba(20,16,5,.7);
+  border:1px solid rgba(212,175,55,.15);
+  border-radius:16px;
+  padding:16px 20px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  transition:.3s;
+}
+.song-item:hover{ border-color:rgba(212,175,55,.3); }
+.song-info{ flex:1; }
+.song-title{ color:#d4af37; font-size:16px; margin-bottom:4px; }
+.song-meta{ color:#7a6e58; font-size:12px; letter-spacing:1px; }
+.song-badge{
+  padding:3px 10px; border-radius:999px;
+  font-size:11px; font-weight:bold;
+  background:rgba(212,175,55,.15);
+  color:#d4af37; border:1px solid rgba(212,175,55,.3);
+}
+.song-actions{ display:flex; gap:8px; }
+.btn-del{
+  padding:6px 14px; border-radius:999px;
+  border:1px solid rgba(255,80,80,.3);
+  background:none; color:rgba(255,80,80,.7);
+  font-size:12px; cursor:pointer; transition:.3s;
+}
+.btn-del:hover{ background:rgba(255,80,80,.1); color:#ff6b6b; }
+.btn-edit{
+  padding:6px 14px; border-radius:999px;
+  border:1px solid rgba(212,175,55,.3);
+  background:none; color:#d4af37;
+  font-size:12px; cursor:pointer; transition:.3s;
+}
+.btn-edit:hover{ background:rgba(212,175,55,.1); }
+
+/* EXPORT */
+.export-section{
+  max-width:700px;
+  margin:30px auto 0;
+  text-align:center;
+}
+.btn-export{
+  padding:12px 28px; border-radius:999px;
+  border:1px solid rgba(212,175,55,.4);
+  background:rgba(212,175,55,.08);
+  color:#d4af37; font-size:14px;
+  cursor:pointer; transition:.3s;
+  font-family:Georgia,serif; margin:6px;
+}
+.btn-export:hover{ background:rgba(212,175,55,.15); }
+
+/* FILTERS */
+.filter-bar{
+  display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;
+}
+.filter-chip{
+  padding:6px 14px; border-radius:999px;
+  border:1px solid rgba(212,175,55,.2);
+  background:transparent; color:#d4c29d;
+  font-size:12px; cursor:pointer;
+  font-family:Georgia,serif; transition:.3s;
+}
+.filter-chip.active{ background:#d4af37; color:#000; font-weight:bold; }
+
+.empty{ text-align:center; color:#5a5040; padding:40px; font-style:italic; }
+.toast{
+  position:fixed; bottom:30px; left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:rgba(20,16,5,.97);
+  border:1px solid rgba(212,175,55,.4);
+  color:#d4af37; padding:12px 24px;
+  border-radius:999px; font-size:14px;
+  opacity:0; pointer-events:none; transition:.4s;
+  z-index:9999;
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<h1>IMASTUN STUDIO</h1>
+<div class="subtitle">ADMIN PANEL</div>
+<div class="line"></div>
+
+<!-- ADD SONG FORM -->
+<div class="add-form">
+  <h2>➕ Добавить песню</h2>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Название песни *</label>
+      <input type="text" id="f-title" placeholder="Ի՞нч em anelu">
+    </div>
+    <div class="form-group">
+      <label>Артист *</label>
+      <select id="f-artist">
+        <option value="silva">Սиlвa Гулаnyаn</option>
+        <option value="gohara">Гo Нарa</option>
+        <option value="imastun">Imastun</option>
+        <option value="lilit">Лилилт Агасян</option>
+        <option value="narine">Нарине Баласбекян</option>
+        <option value="other">Другой</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Suno ссылка</label>
+      <input type="text" id="f-suno" placeholder="https://suno.com/song/...">
+    </div>
+    <div class="form-group">
+      <label>YouTube ссылка</label>
+      <input type="text" id="f-youtube" placeholder="https://youtube.com/watch?v=...">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Год</label>
+      <input type="number" id="f-year" placeholder="2024" min="2020" max="2030">
+    </div>
+    <div class="form-group">
+      <label>Альбом</label>
+      <input type="text" id="f-album" placeholder="Название альбома">
+    </div>
+  </div>
+  <div class="form-group full" style="margin-bottom:14px">
+    <label>Описание</label>
+    <textarea id="f-desc" placeholder="Краткое описание песни…"></textarea>
+  </div>
+  <button class="btn-add" onclick="addSong()">+ Добавить песню</button>
+</div>
+
+<!-- SONG LIST -->
+<div class="songs-section">
+  <h2>
+    Мои песни
+    <span id="song-count">0 песен</span>
+  </h2>
+  <div class="filter-bar" id="filter-bar">
+    <button class="filter-chip active" onclick="filterSongs('all',this)">Все</button>
+    <button class="filter-chip" onclick="filterSongs('silva',this)">Сиlвa</button>
+    <button class="filter-chip" onclick="filterSongs('gohara',this)">Гo Нарa</button>
+    <button class="filter-chip" onclick="filterSongs('imastun',this)">Imastun</button>
+    <button class="filter-chip" onclick="filterSongs('lilit',this)">Лилилт</button>
+    <button class="filter-chip" onclick="filterSongs('narine',this)">Нарине</button>
+  </div>
+  <div id="song-list"></div>
+</div>
+
+<!-- EXPORT -->
+<div class="export-section">
+  <div style="color:#7a6e58;font-size:13px;margin-bottom:12px;">Экспорт для сайта</div>
+  <button class="btn-export" onclick="exportJSON()">📥 Скачать songs.json</button>
+  <button class="btn-export" onclick="exportHTML()">📋 Копировать HTML карточки</button>
+  <button class="btn-export" onclick="clearAll()" style="color:rgba(255,80,80,.7);border-color:rgba(255,80,80,.3);">🗑 Очистить всё</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let songs = [];
+let currentFilter = 'all';
+
+function load(){
+  try{ songs = JSON.parse(localStorage.getItem('im_admin_songs')||'[]'); }
+  catch(e){ songs = []; }
+  render();
+}
+
+function save(){
+  try{ localStorage.setItem('im_admin_songs', JSON.stringify(songs)); }catch(e){}
+}
+
+function addSong(){
+  const title = document.getElementById('f-title').value.trim();
+  const artist = document.getElementById('f-artist').value;
+  const suno = document.getElementById('f-suno').value.trim();
+  const youtube = document.getElementById('f-youtube').value.trim();
+  const year = document.getElementById('f-year').value||new Date().getFullYear();
+  const album = document.getElementById('f-album').value.trim();
+  const desc = document.getElementById('f-desc').value.trim();
+
+  if(!title){ showToast('⚠️ Введи название песни'); return; }
+  if(!suno && !youtube){ showToast('⚠️ Добавь Suno или YouTube ссылку'); return; }
+
+  songs.push({
+    id: Date.now(),
+    title, artist, suno, youtube,
+    year: parseInt(year),
+    album, desc,
+    added: new Date().toLocaleDateString()
+  });
+  save();
+
+  // Clear form
+  ['f-title','f-suno','f-youtube','f-year','f-album','f-desc'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+
+  render();
+  showToast('✓ Песня добавлена!');
+}
+
+function deleteSong(id){
+  if(!confirm('Удалить эту песню?')) return;
+  songs = songs.filter(s=>s.id!==id);
+  save(); render();
+  showToast('Удалено');
+}
+
+function filterSongs(filter, btn){
+  currentFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function render(){
+  const list = document.getElementById('song-list');
+  const filtered = currentFilter==='all' ? songs : songs.filter(s=>s.artist===currentFilter);
+  document.getElementById('song-count').textContent = songs.length + ' песен';
+
+  if(!filtered.length){
+    list.innerHTML = '<div class="empty">Пока нет песен. Добавь первую! 🎵</div>';
+    return;
+  }
+
+  const artistNames = {
+    silva:'Сиlвa', gohara:'Гo Нарa', imastun:'Imastun',
+    lilit:'Лилилт', narine:'Нарине', other:'Другой'
+  };
+
+  list.innerHTML = filtered.map(s=>`
+    <div class="song-item" id="item-${s.id}">
+      <div class="song-info">
+        <div class="song-title">${s.title}</div>
+        <div class="song-meta">
+          ${artistNames[s.artist]||s.artist}
+          ${s.album?' · '+s.album:''}
+          ${s.year?' · '+s.year:''}
+          · добавлено ${s.added}
+        </div>
+      </div>
+      ${s.suno?'<span class="song-badge">Suno</span>':''}
+      ${s.youtube?'<span class="song-badge">YouTube</span>':''}
+      <div class="song-actions">
+        <button class="btn-del" onclick="deleteSong(${s.id})">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function exportJSON(){
+  const data = JSON.stringify(songs, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'songs.json';
+  a.click();
+  showToast('📥 songs.json скачан');
+}
+
+function exportHTML(){
+  const html = songs.map(s=>`<div class="card" data-artist="${s.artist}" data-title="${s.title}"${s.youtube?' data-youtube="'+s.youtube+'"':''}${s.suno?' data-suno="'+s.suno+'"':''}>
+  <h3>${s.title}</h3>
+  ${s.desc?'<p>'+s.desc+'</p>':''}
+</div>`).join('\n\n');
+  navigator.clipboard.writeText(html).then(()=>{
+    showToast('📋 HTML скопирован в буфер');
+  });
+}
+
+function clearAll(){
+  if(!confirm('Удалить ВСЕ песни? Это нельзя отменить!')) return;
+  songs = [];
+  save(); render();
+  showToast('Всё очищено');
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+load();
+</script>
+</body>
+</html>
